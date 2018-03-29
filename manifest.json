@@ -1,0 +1,77 @@
+{
+  "short_name": "Tastebook",
+  "name": "Tastebook",
+  "description": "A simple restaurant reviews app.",
+  "background_color": "#ffffff",
+  "display": "minimal-ui",
+  "orientation": "landscape",
+  "theme_color": "#155c8e",
+  "start_url": "index.html?launcher=true",
+  "icons": [
+    {
+      "src": "public/img/png/taste_book_black_48dp_36.png",
+      "type": "image/png",
+      "sizes": "36x36"
+    },
+    {
+      "src": "public/img/png/taste_book_black_48dp_48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "public/img/png/taste_book_black_48dp_60.png",
+      "type": "image/png",
+      "sizes": "60x60"
+    },
+    {
+      "src": "public/img/png/taste_book_black_48dp_72.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "public/img/png/taste_book_black_48dp_76.png",
+      "type": "image/png",
+      "sizes": "76x76"
+    },
+    {
+      "src": "public/img/png/taste_book_black_48dp_96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "public/img/png/taste_book_black_48dp_120.png",
+      "type": "image/png",
+      "sizes": "120x120"
+    },
+    {
+      "src": "public/img/png/taste_book_black_48dp_144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "public/img/png/taste_book_black_48dp_152.png",
+      "type": "image/png",
+      "sizes": "152x152"
+    },
+    {
+      "src": "public/img/png/taste_book_black_48dp_168.png",
+      "type": "image/png",
+      "sizes": "168x168"
+    },
+    {
+      "src": "public/img/png/taste_book_black_48dp_180.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    },
+    {
+      "src": "public/img/png/taste_book_black_48dp_192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "public/img/png/taste_book_black_48dp_512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

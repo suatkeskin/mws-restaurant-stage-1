@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="#155c8e" name="theme-color">
+    <meta name="Description" content="A restaurant review application to discover local places.">
+    <link href="public/img/favicon.png" rel="icon" type="image/png">
+    <link href="/manifest.json" rel="manifest">
+    <title>Tastebook</title>
+    <style>#preloader{background-color:#fff;height:100vh}.preloader_logo{height:100vh;max-height:100vh;margin:0;padding:5em}.preloader_logo svg{width:100%;height:100%}.hidden{display:none}</style>
+</head>
+
+<body class="inside">
+
+<div id="preloader">
+    <div class="preloader_logo">
+        <svg fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path fill="none" d="M0 0h24v24H0zm15.35 6.41l-1.77-1.77c-.2-.2-.51-.2-.71 0L6 11.53V14h2.47l6.88-6.88c.2-.19.2-.51 0-.71z"/>
+            <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 14v-2.47l6.88-6.88c.2-.2.51-.2.71 0l1.77 1.77c.2.2.2.51 0 .71L8.47 14H6zm12 0h-7.5l2-2H18v2z"/>
+        </svg>
+    </div>
+</div>
+
+<noscript id="deferred-styles">
+    <link href="public/css/styles.restaurant.min.css" rel="stylesheet">
+</noscript>
+
+<header class="hidden header" id="header">
+    <nav class="navbar">
+        <div class="header_logo">
+            <div class="navbar-brand">
+                <svg fill="#ffffff" viewBox="0 0 24 24" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="none" d="M0 0h24v24H0zm15.35 6.41l-1.77-1.77c-.2-.2-.51-.2-.71 0L6 11.53V14h2.47l6.88-6.88c.2-.19.2-.51 0-.71z"/>
+                    <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 14v-2.47l6.88-6.88c.2-.2.51-.2.71 0l1.77 1.77c.2.2.2.51 0 .71L8.47 14H6zm12 0h-7.5l2-2H18v2z"/>
+                </svg>
+            </div>
+            <div>
+                <h1 class="header_title">
+                    <a href="/">Tastebook</a>
+                </h1>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="hidden" id="maincontent">
+
+    <section id="map-container">
+        <div id="map"></div>
+    </section>
+
+    <section id="breadcrumb-container">
+        <ul id="breadcrumb">
+            <li><a href="/">Home</a>
+        </ul>
+    </section>
+
+    <section id="restaurant-container">
+        <h1 id="restaurant-name"></h1>
+        <picture>
+            <source id="restaurant-img-webp-src" type="image/webp" srcset="">
+            <source id="restaurant-img-jpg-src" type="image/jpeg" srcset="">
+            <img id="restaurant-img" src="">
+        </picture>
+        <p id="restaurant-cuisine">
+        <p id="restaurant-address">
+        <table id="restaurant-hours"></table>
+    </section>
+
+    <hr>
+
+    <section id="reviews-container">
+        <ul id="reviews-list"></ul>
+    </section>
+</main>
+
+<footer class="hidden" id="footer">Copyright (c) 2017 <a href="/"><strong>Tastebook</strong></a> All Rights Reserved.</footer>
+
+<script src="public/js/swhelper.min.js" charset="utf-8"></script>
+<script src="public/js/common.min.js" charset="utf-8"></script>
+<script src="public/js/dbhelper.min.js" charset="utf-8"></script>
+<script src="public/js/restaurant_info.min.js" charset="utf-8"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCn77VVsapalDcL4jdN_etwNX1o52r7yl4&libraries=places&callback=initMap" async defer></script>
+
+</body>
+</html>
