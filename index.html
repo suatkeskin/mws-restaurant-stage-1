@@ -14,6 +14,8 @@
 
 <body>
 
+<a class="skip-link" href="#filters">Skip to filters</a>
+
 <div id="preloader">
     <div class="preloader_logo">
         <svg fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -24,10 +26,10 @@
 </div>
 
 <noscript id="deferred-styles">
-    <link href="public/css/styles.index.css" rel="stylesheet">
+    <link href="public/css/index.min.css" rel="stylesheet">
 </noscript>
 
-<header class="hidden header" id="header">
+<header class="header hidden" id="header">
     <nav class="navbar">
         <div class="header_logo">
             <div class="navbar-brand">
@@ -52,22 +54,28 @@
     </section>
 
     <section id="restaurant-container">
-        <div class="filter-container">
+        <div class="filter-container" id="filters" tabindex="-1">
             <div class="filter-options">
                 <div class="filter-header-container">
                     <h2>Filter Results</h2>
                 </div>
                 <div class="filter-neighborhood-container">
-                    <label for="neighborhoods-select">Neighborhood</label>
-                    <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
-                        <option value="all">All Neighborhoods</option>
-                    </select>
+                    <label for="neighborhood">Choose a neighborhood:</label>
+                    <input id="neighborhood" type="text" role="combobox" value="All Neighborhoods">
+                    <div class="neighborhood-listbox" role="listbox" hidden tabindex="-1">
+                        <ul id="neighborhoods-select" role="presentation">
+                            <li role="option">All Neighborhoods</li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="filter-cuisine-container">
-                    <label for="cuisines-select">Cuisine</label>
-                    <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
-                        <option value="all">All Cuisines</option>
-                    </select>
+                    <label for="cuisine">Choose a cuisine:</label>
+                    <input id="cuisine" type="text" role="combobox" value="All Cuisines">
+                    <div id="cuisine-listbox" role="listbox" hidden tabindex="-1">
+                        <ul id="cuisines-select" role="presentation">
+                            <li role="option">All Cuisines</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -83,7 +91,8 @@
 <script src="public/js/swhelper.min.js" charset="utf-8"></script>
 <script src="public/js/common.min.js" charset="utf-8"></script>
 <script src="public/js/dbhelper.min.js" charset="utf-8"></script>
-<script src="public/js/main.min.js" charset="utf-8"></script>
+<script src="public/js/combobox.min.js" charset="utf-8"></script>
+<script src="public/js/index.min.js" charset="utf-8"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCn77VVsapalDcL4jdN_etwNX1o52r7yl4&libraries=places&callback=initMap" async defer></script>
 
 </body>

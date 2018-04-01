@@ -1,7 +1,7 @@
 # Mobile Web Specialist Certification Course
 ---
 #### _Three Stage Course Material Project - Restaurant Reviews_
-#### _Take a look(https://suat-keskin.appspot.com/)_
+#### _Take a look (https://suat-keskin.appspot.com/)_
 
 ## Project Overview: Stage 1
 
