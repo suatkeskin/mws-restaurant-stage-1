@@ -77,22 +77,6 @@ header, nav, footer, section, article, div {
     0 1px 5px 0 rgba(0, 0, 0, 0);
 }
 
-/* Skip links */
-.skip-link {
-    position: absolute;
-    top: -60px;
-    left: 0;
-    background: #BF1722;
-    color: white;
-    padding: 8px;
-    z-index: 100;
-    border-bottom-right-radius: 8px;
-}
-
-.skip-link:focus {
-    top: 0;
-}
-
 /* Header */
 .header {
     min-width: 300px;
