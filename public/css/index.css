@@ -227,7 +227,7 @@ header, nav, footer, section, article, div {
     display: inline-block;
 }
 
-#restaurants-list li h1 {
+#restaurants-list li h3 {
     color: #8a4700;
     font-size: 20px;
     font-weight: 200;
@@ -419,7 +419,7 @@ li.header {
         font-size: 20px;
     }
 
-    #restaurants-list li h1, .filter-options h2 {
+    #restaurants-list li h3, .filter-options h2 {
         font-size: 22px;
     }
 
@@ -461,7 +461,7 @@ li.header {
         font-size: 22px;
     }
 
-    #restaurants-list li h1, .filter-options h2 {
+    #restaurants-list li h3, .filter-options h2 {
         font-size: 24px;
     }
 }
@@ -495,7 +495,7 @@ li.header {
         font-size: 24px;
     }
 
-    #restaurants-list li h1, .filter-options h2 {
+    #restaurants-list li h3, .filter-options h2 {
         font-size: 26px;
     }
 }
@@ -529,7 +529,7 @@ li.header {
         font-size: 26px;
     }
 
-    #restaurants-list li h1, .filter-options h2 {
+    #restaurants-list li h3, .filter-options h2 {
         font-size: 28px;
     }
 }
