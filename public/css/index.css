@@ -259,18 +259,6 @@ header, nav, footer, section, article, div {
             grid-template-columns: repeat(3, 1fr);
         }
     }
-
-    @media screen and (min-width: 1800px) {
-        #restaurants-list {
-            grid-template-columns: repeat(4, 1fr);
-        }
-    }
-
-    @media screen and (min-width: 2250px) {
-        #restaurants-list {
-            grid-template-columns: repeat(5, 1fr);
-        }
-    }
 }
 
 /* Footer */
