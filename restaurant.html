@@ -49,18 +49,20 @@
 
 <main class="hidden" id="maincontent">
 
-    <section id="map-container">
+    <section id="map-container" role="application">
         <div id="map"></div>
     </section>
 
-    <section id="breadcrumb-container" tabindex="-1">
-        <ul id="breadcrumb">
-            <li><a href="/">Home</a>
-        </ul>
-    </section>
+    <nav id="breadcrumb-container" aria-label="Breadcrumb">
+        <ol id="breadcrumb">
+            <li>
+                <a href="/">Home</a>
+            </li>
+        </ol>
+    </nav>
 
     <section id="restaurant-container">
-        <h1 id="restaurant-name"></h1>
+        <h3 id="restaurant-name"></h3>
         <picture>
             <source id="restaurant-img-webp-src" type="image/webp" srcset="">
             <source id="restaurant-img-jpg-src" type="image/jpeg" srcset="">

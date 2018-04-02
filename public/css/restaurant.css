@@ -202,7 +202,6 @@ hr {
 #breadcrumb li {
     display: inline;
     font-size: 18px;
-    color: #d9d9d9;
 }
 
 #breadcrumb li + li:before {
@@ -211,11 +210,13 @@ hr {
     content: "/\00a0";
 }
 
-#breadcrumb li a {
-    text-decoration: none;
+#breadcrumb li a[aria-current="page"] {
+    color: #d9d9d9;
 }
 
+#breadcrumb li a:focus,
 #breadcrumb li a:hover {
+    color: #ffffff;
     text-decoration: underline;
 }
 
@@ -232,7 +233,7 @@ hr {
     padding: 30px 40px 80px;
 }
 
-#reviews-container h2 {
+#reviews-container h4 {
     color: #8a4700;
     font-size: 22px;
     font-weight: 300;
@@ -413,7 +414,7 @@ hr {
         font-size: 22px;
     }
 
-    #reviews-container h2 {
+    #reviews-container h4 {
         font-size: 24px;
     }
 
@@ -452,7 +453,7 @@ hr {
         font-weight: 600;
     }
 
-    #reviews-container h2 {
+    #reviews-container h4 {
         font-size: 26px;
         font-weight: 600;
     }
@@ -492,7 +493,7 @@ hr {
         font-size: 26px;
     }
 
-    #reviews-container h2 {
+    #reviews-container h4 {
         font-size: 28px;
     }
 
@@ -535,7 +536,7 @@ hr {
         font-weight: 800;
     }
 
-    #reviews-container h2 {
+    #reviews-container h4 {
         font-size: 32px;
         font-weight: 800;
     }
