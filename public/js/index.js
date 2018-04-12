@@ -148,27 +148,30 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
     const li = document.createElement('li');
 
-    const picture = document.createElement('picture');
+    const imgSrc = DBHelper.imageUrlForRestaurant(restaurant);
+    if (imgSrc) {
+        const picture = document.createElement('picture');
 
-    const webp = document.createElement('source');
-    webp.type = "image/webp";
-    webp.srcset = DBHelper.webpSrcsetForRestaurant(restaurant);
+        const webp = document.createElement('source');
+        webp.type = "image/webp";
+        webp.srcset = DBHelper.webpSrcsetForRestaurant(restaurant);
 
-    const img = document.createElement('source');
-    img.type = "image/jpeg";
-    img.srcset = DBHelper.imageSrcsetForRestaurant(restaurant);
+        const img = document.createElement('source');
+        img.type = "image/jpeg";
+        img.srcset = DBHelper.imageSrcsetForRestaurant(restaurant);
 
-    const image = document.createElement('img');
-    image.className = 'restaurant-img';
-    image.src = DBHelper.imageUrlForRestaurant(restaurant);
-    image.srcset = DBHelper.imageSrcsetForRestaurant(restaurant);
-    image.sizes = "100vw";
-    image.alt = `Image of restaurant ${restaurant.name}`;
+        const image = document.createElement('img');
+        image.className = 'restaurant-img';
+        image.src = imgSrc;
+        image.srcset = DBHelper.imageSrcsetForRestaurant(restaurant);
+        image.sizes = "100vw";
+        image.alt = `Image of restaurant ${restaurant.name}`;
 
-    picture.appendChild(webp);
-    picture.appendChild(img);
-    picture.appendChild(image);
-    li.append(picture);
+        picture.appendChild(webp);
+        picture.appendChild(img);
+        picture.appendChild(image);
+        li.append(picture);
+    }
 
     const name = document.createElement('h3');
     name.innerHTML = restaurant.name;
