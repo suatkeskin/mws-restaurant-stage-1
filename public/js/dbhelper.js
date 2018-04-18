@@ -2,7 +2,6 @@
  * Common database helper functions.
  */
 class DBHelper {
-
     /**
      * Database URL.
      * Change this to restaurants.json file location on your server.
@@ -13,37 +12,18 @@ class DBHelper {
     }
 
     /**
-     * Fetch all restaurants.
+     * Fetch all restaurants from remote server.
+     * Load all restaurants from remote server, if fails load from indexed DB
      */
     static fetchRestaurants(callback) {
-        fetch(DBHelper.DATABASE_URL).then(response => response.status === 200 ? response.json() : null).then(function (restaurants) {
-            if (restaurants) {
-                callback(null, restaurants);
-            } else {
-                callback('No restaurants available', null);
-            }
-        }).catch((error) => {
-            callback(error, null);
-        });
-    }
-
-    /**
-     * Fetch a restaurant by its ID.
-     */
-    static fetchRestaurantById(id, callback) {
-        // fetch all restaurants with proper error handling.
-        DBHelper.fetchRestaurants((error, restaurants) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                const restaurant = restaurants.find(r => r.id === id);
-                if (restaurant) { // Got the restaurant
-                    callback(null, restaurant);
-                } else { // Restaurant does not exist in the database
-                    callback('Restaurant does not exist', null);
-                }
-            }
-        });
+        fetch(DBHelper.DATABASE_URL)
+            .then(response => response.status === 200 ? response.json() : null)
+            .then(restaurants => restaurants ? DBHelper.saveRestaurantsToIndexedDB(restaurants) : DBHelper.loadRestaurantsFromIndexedDB())
+            .catch((error) => {
+                console.error("Can not fetch restaurants from remote server, will load from database!");
+                console.error(error);
+                return DBHelper.loadRestaurantsFromIndexedDB();
+            }).then((restaurants) => callback(null, restaurants));
     }
 
     /**
@@ -76,11 +56,15 @@ class DBHelper {
             if (error) {
                 callback(error, null);
             } else {
-                // Get all neighborhoods from all restaurants
-                const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood);
-                // Remove duplicates from neighborhoods
-                const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) === i);
-                callback(null, uniqueNeighborhoods);
+                if (restaurants) {
+                    // Get all neighborhoods from all restaurants
+                    const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood);
+                    // Remove duplicates from neighborhoods
+                    const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) === i);
+                    callback(null, uniqueNeighborhoods);
+                } else {
+                    callback('No restaurants available', null);
+                }
             }
         });
     }
@@ -100,6 +84,51 @@ class DBHelper {
                 const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) === i);
                 callback(null, uniqueCuisines);
             }
+        });
+    }
+
+    /**
+     * Load restaurants from indexed DB.
+     */
+    static loadRestaurantsFromIndexedDB() {
+        return dbPromise.then(function (db) {
+            const tx = db.transaction('restaurants');
+            const restaurantsStore = tx.objectStore('restaurants');
+            const idIndex = restaurantsStore.index('by-id');
+            return idIndex.getAll();
+        }).then(function (restaurants) {
+            return restaurants;
+        });
+    }
+
+    /**
+     * Load restaurant from indexed DB by ID.
+     */
+    static loadRestaurantFromIndexedDbById(id, callback) {
+        dbPromise.then(function (db) {
+            const tx = db.transaction('restaurants');
+            const restaurantsStore = tx.objectStore('restaurants');
+            return restaurantsStore.get(Number(id));
+        }).then(function (restaurant) {
+            return callback(restaurant);
+        });
+    }
+
+    /**
+     * Save restaurants to indexed DB.
+     */
+    static saveRestaurantsToIndexedDB(restaurants) {
+        return dbPromise.then(function (db) {
+            if (restaurants) {
+                const tx = db.transaction('restaurants', 'readwrite');
+                const restaurantsStore = tx.objectStore('restaurants');
+                restaurants.forEach(function (restaurant) {
+                    restaurantsStore.put(restaurant);
+                });
+                return tx.complete;
+            }
+        }).then(function () {
+            return restaurants;
         });
     }
 

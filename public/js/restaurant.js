@@ -44,7 +44,7 @@ fetchRestaurantFromURL = (callback) => {
         error = 'No restaurant id in URL';
         callback(error, null);
     } else {
-        DBHelper.fetchRestaurantById(id, (error, restaurant) => {
+        DBHelper.loadRestaurantFromIndexedDbById(id, (restaurant) => {
             self.restaurant = restaurant;
             if (!restaurant) {
                 console.error(error);
