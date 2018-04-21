@@ -1,4 +1,4 @@
-let restaurants, neighborhoods, cuisines;
+let restaurants;
 let map;
 var markers = [];
 
@@ -6,71 +6,8 @@ var markers = [];
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', () => {
-	fetchNeighborhoods();
-	fetchCuisines();
+	updateRestaurants();
 });
-
-/**
- * Fetch all neighborhoods and set their HTML.
- */
-let fetchNeighborhoods = () => {
-	DBHelper.fetchNeighborhoods((error, neighborhoods) => {
-		if (error) { // Got an error
-			console.error(error);
-		} else {
-			self.neighborhoods = neighborhoods;
-			fillNeighborhoodsHTML();
-			var neighborhood = document.getElementById('neighborhood');
-			var neighborhoodListBox = document.querySelector('.neighborhood-listbox');
-			new ComboBox(neighborhood, neighborhoodListBox);
-		}
-	});
-};
-
-/**
- * Set neighborhoods HTML.
- */
-let fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
-	const ul = document.getElementById('neighborhoods-select');
-	neighborhoods.forEach(neighborhood => {
-		const li = document.createElement('li');
-		li.innerHTML = neighborhood;
-		li.value = neighborhood;
-		li.setAttribute("role", "option");
-		ul.append(li);
-	});
-};
-
-/**
- * Fetch all cuisines and set their HTML.
- */
-let fetchCuisines = () => {
-	DBHelper.fetchCuisines((error, cuisines) => {
-		if (error) { // Got an error!
-			console.error(error);
-		} else {
-			self.cuisines = cuisines;
-			fillCuisinesHTML();
-			var cuisine = document.getElementById('cuisine');
-			var cuisineListBox = document.getElementById('cuisine-listbox');
-			new ComboBox(cuisine, cuisineListBox);
-		}
-	});
-};
-
-/**
- * Set cuisines HTML.
- */
-let fillCuisinesHTML = (cuisines = self.cuisines) => {
-	const ul = document.getElementById('cuisines-select');
-	cuisines.forEach(cuisine => {
-		const li = document.createElement('li');
-		li.innerHTML = cuisine;
-		li.value = cuisine;
-		li.setAttribute('role', 'option');
-		ul.append(li);
-	});
-};
 
 /**
  * Initialize Google map, called from HTML.
@@ -96,7 +33,8 @@ window.initMap = () => {
 			item.removeAttribute('rel');
 		});
 	});
-	updateRestaurants();
+	showMap();
+	addMarkersToMap();
 };
 
 /**
@@ -113,7 +51,7 @@ let updateRestaurants = () => {
 			resetRestaurants(restaurants);
 			fillRestaurantsHTML();
 		}
-	})
+	});
 };
 
 /**
@@ -139,7 +77,6 @@ let fillRestaurantsHTML = (restaurants = self.restaurants) => {
 	restaurants.forEach(restaurant => {
 		ul.append(createRestaurantHTML(restaurant));
 	});
-	addMarkersToMap();
 };
 
 /**
@@ -201,7 +138,7 @@ let addMarkersToMap = (restaurants = self.restaurants) => {
 		// Add marker to the map
 		const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
 		google.maps.event.addListener(marker, 'click', () => {
-			window.location.href = marker.url
+			window.location.href = marker.url;
 		});
 		self.markers.push(marker);
 	});

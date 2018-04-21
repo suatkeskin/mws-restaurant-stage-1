@@ -155,6 +155,11 @@ hr {
 }
 
 /*Google maps */
+#map-container {
+  text-align: center;
+  vertical-align: middle;
+}
+
 #map-container, #map {
   height: 400px;
   max-width: 100%;

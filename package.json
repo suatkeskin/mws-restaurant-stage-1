@@ -4,14 +4,6 @@
   "version": "0.0.0",
   "description": "Mobile Web Specialist Certification Course Project",
   "keywords": [],
-  "dependencies": {
-    "idb": "^2.1.1",
-    "include-all": "^4.0.3",
-    "rc": "1.2.6",
-    "sails": "^1.0.1",
-    "sails-disk": "~1.0.1",
-    "ws": "^5.1.1"
-  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
@@ -22,7 +14,6 @@
     "gulp-imagemin": "^4.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^4.0.1",
-    "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.0",
     "imagemin-pngquant": "^5.1.0"
   },
@@ -30,7 +21,7 @@
     "debug": "node debug app.js",
     "start": "node app.js"
   },
-  "main": "app.js",
+  "main": "index.html",
   "repository": {
     "type": "git",
     "url": "git://github.com/suatkeskin/mws-restaurant-stage-1.git"

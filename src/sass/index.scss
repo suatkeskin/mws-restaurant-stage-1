@@ -1,6 +1,6 @@
 @charset "utf-8";
 asd
-/* Common styles */
+  /* Common styles */
 * {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -144,6 +144,11 @@ header, nav, footer, section, article, div {
 }
 
 /*Google maps */
+#map-container {
+  text-align: center;
+  vertical-align: middle;
+}
+
 #map-container, #map {
   height: 400px;
   max-width: 100%;

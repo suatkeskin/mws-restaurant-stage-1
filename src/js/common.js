@@ -20,6 +20,7 @@ if (requestAnimationFrame) {
  */
 window.addEventListener('load', () => {
 	fadeOutPreLoader(document.getElementById('preloader'));
+	addMouseOverEventToStaticMap(document.getElementById('static-map-img'));
 });
 
 /**
@@ -50,9 +51,25 @@ let fadeOutPreLoader = (el) => {
 	})();
 };
 
+/**
+ * Add mouse-over event to static map.
+ * When user interacts with map image real map will load.
+ */
+let addMouseOverEventToStaticMap = (el) => {
+	el.addEventListener('mouseover', window.initMap);
+	el.src = 'https://maps.googleapis.com/maps/api/staticmap?center=40.722216,-73.987501&zoom=12&size=2000x400&key=AIzaSyAqJavehmsKP0mlbTm-5OoG3FmL1MLB9KA';
+};
+
+/**
+ * Enable user intractable map.
+ */
+let showMap = () => {
+	document.getElementById('map').classList.remove('hidden');
+	document.getElementById('static-map-img').classList.add('hidden');
+};
+
 window.addEventListener('beforeinstallprompt', function (e) {
 	e.userChoice.then(function (choiceResult) {
-		console.log(choiceResult.outcome);
 		if (choiceResult.outcome === 'dismissed') {
 			console.error('User cancelled home screen install');
 		} else {
