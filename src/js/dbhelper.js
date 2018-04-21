@@ -17,7 +17,7 @@ let openIndexedDB = () => {
 	}
 	return idb.open('restaurants-db', 1, function (upgradeDb) {
 		let restaurantsStore = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
-		restaurantsStore.createIndex('by-id', 'id')
+		restaurantsStore.createIndex('by-id', 'id');
 	});
 };
 
@@ -136,7 +136,7 @@ class DBHelper {
 			if (restaurants) {
 				const tx = db.transaction('restaurants', 'readwrite');
 				const restaurantsStore = tx.objectStore('restaurants');
-				if (restaurants.isArray) {
+				if (restaurants instanceof Array) {
 					restaurants.forEach(function (restaurant) {
 						restaurantsStore.put(restaurant);
 					});
