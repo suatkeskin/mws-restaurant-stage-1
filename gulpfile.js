@@ -8,7 +8,9 @@ const gulpUglify = require('gulp-uglify');
 const gulpRename = require('gulp-rename');
 const gulpClean = require('gulp-clean');
 const gulpImagemin = require('gulp-imagemin');
+const gulpImageminPngquant = require('imagemin-pngquant');
 const gulpBabel = require('gulp-babel');
+const gulpSourceMaps = require('gulp-sourcemaps');
 
 let paths = {
 	assets: {
@@ -36,21 +38,25 @@ function styles() {
 	return gulp.src(paths.styles.source)
 		.pipe(gulpSass({outputStyle: 'compressed'}).on('error', gulpSass.logError))
 		.pipe(gulpAutoPrefixer({browsers: ['last 2 versions']}))
+		.pipe(gulpSourceMaps.init())
 		.pipe(gulpRename({suffix: '.min'}))
+		.pipe(gulpSourceMaps.write())
 		.pipe(gulp.dest(paths.styles.destination));
 }
 
 function scripts() {
 	return gulp.src(paths.scripts.source, {sourcemaps: true})
+		.pipe(gulpSourceMaps.init())
 		.pipe(gulpBabel({presets: ['es2015']}))
 		.pipe(gulpUglify())
 		.pipe(gulpRename({suffix: '.min'}))
+		.pipe(gulpSourceMaps.write())
 		.pipe(gulp.dest(paths.scripts.destination));
 }
 
 function images() {
 	return gulp.src(paths.images.source)
-		.pipe(gulpImagemin())
+		.pipe(gulpImagemin({progressive: true, use: [gulpImageminPngquant()]}))
 		.pipe(gulp.dest(paths.images.destination));
 }
 
