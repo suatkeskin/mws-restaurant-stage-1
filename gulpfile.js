@@ -1,14 +1,17 @@
 /*eslint-env node */
-
 const gulp = require('gulp');
 const gulpSass = require('gulp-sass');
-const gulpAutoPrefixer = require('gulp-autoprefixer');
+const gulpAutoPreFixer = require('gulp-autoprefixer');
 const gulpUglify = require('gulp-uglify');
 const gulpRename = require('gulp-rename');
 const gulpClean = require('gulp-clean');
-const gulpImagemin = require('gulp-imagemin');
+const gulpImageMin = require('gulp-imagemin');
 const gulpBabel = require('gulp-babel');
-const gulpImageminPngquant = require('imagemin-pngquant');
+const gulpStreamify = require('gulp-streamify');
+const babelify = require('babelify');
+const imageMinPngquant = require('imagemin-pngquant');
+const browserify = require('browserify');
+const vinylSourceStream = require('vinyl-source-stream');
 
 let paths = {
 	assets: {
@@ -19,7 +22,11 @@ let paths = {
 		destination: 'public/css/'
 	},
 	scripts: {
-		source: 'src/js/**/*.js',
+		source: 'src/js/**/!(*.material.io).js',
+		destination: 'public/js/'
+	},
+	material: {
+		source: 'src/js/material.io.js',
 		destination: 'public/js/'
 	},
 	images: {
@@ -32,17 +39,28 @@ function clean() {
 	return gulp.src(paths.assets.source, {read: false, force: true}).pipe(gulpClean());
 }
 
+function material() {
+	return browserify({entries: paths.material.source})
+		.transform(babelify, {presets: ['env'], global: true, ignore: /\/node_modules\/(?!@material\/)/})
+		.bundle()
+		.pipe(vinylSourceStream('material.io.min.js'))
+		.pipe(gulpStreamify(gulpBabel({presets: ['env']})))
+		.pipe(gulpStreamify(gulpUglify()))
+		.pipe(gulp.dest(paths.material.destination));
+}
+
 function styles() {
 	return gulp.src(paths.styles.source)
+		.pipe(gulpSass({includePaths: './node_modules/'}))
 		.pipe(gulpSass({outputStyle: 'compressed'}).on('error', gulpSass.logError))
-		.pipe(gulpAutoPrefixer({browsers: ['last 2 versions']}))
+		.pipe(gulpAutoPreFixer({browsers: ['last 2 versions']}))
 		.pipe(gulpRename({suffix: '.min'}))
 		.pipe(gulp.dest(paths.styles.destination));
 }
 
 function scripts() {
-	return gulp.src(paths.scripts.source, {sourcemaps: true})
-		.pipe(gulpBabel({presets: ['es2015']}))
+	return gulp.src(paths.scripts.source)
+		.pipe(gulpBabel({presets: ['env']}))
 		.pipe(gulpUglify())
 		.pipe(gulpRename({suffix: '.min'}))
 		.pipe(gulp.dest(paths.scripts.destination));
@@ -50,7 +68,7 @@ function scripts() {
 
 function images() {
 	return gulp.src(paths.images.source)
-		.pipe(gulpImagemin({progressive: true, use: [gulpImageminPngquant()]}))
+		.pipe(gulpImageMin({progressive: true, use: [imageMinPngquant()]}))
 		.pipe(gulp.dest(paths.images.destination));
 }
 
@@ -60,7 +78,7 @@ function watch(done) {
 	done();
 }
 
-const build = gulp.series(clean, gulp.parallel(styles, scripts, images));
+const build = gulp.series(clean, gulp.parallel(material, styles, scripts, images));
 
 gulp.task('default', build);
 gulp.task('watch', watch);

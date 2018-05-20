@@ -6,8 +6,9 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="#155c8e" name="theme-color">
     <meta name="Description" content="A restaurant review application to discover local places.">
-    <link href="public/img/favicon.png" rel="icon" type="image/png">
-    <link href="/manifest.json" rel="manifest">
+    <link rel="icon" type="image/png" href="public/img/favicon.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <title>Tastebook</title>
     <style>#preloader{background-color:#fff;height:100vh}.preloader_logo{height:100vh;max-height:100vh;margin:0;padding:5em}.preloader_logo svg{width:100%;height:100%}.hidden{display:none}.skip-link{position:absolute;top:-60px;left:0;background:#BF1722;color:white;padding:8px;z-index:100;border-bottom-right-radius:8px}.skip-link:focus{top:0}</style>
 </head>
@@ -26,10 +27,11 @@
 </div>
 
 <noscript id="deferred-styles">
+    <link href="public/css/material.io.min.css" rel="stylesheet">
     <link href="public/css/index.min.css" rel="stylesheet">
 </noscript>
 
-<header class="header hidden" id="header">
+<header id="header" class="header hidden">
     <nav class="navbar">
         <div class="header_logo">
             <div class="navbar-brand">
@@ -47,15 +49,13 @@
     </nav>
 </header>
 
-<main class="hidden" id="maincontent">
-
-    <section id="map-container" role="application">
-        <img id="static-map-img" src="" alt="Static map image of New York">
-        <div id="map" class="hidden"></div>
-    </section>
-
-    <section id="restaurant-container">
-        <div class="filter-container" id="filters" tabindex="-1">
+<main class="mdc-layout-grid hidden" id="maincontent">
+    <div class="mdc-layout-grid__inner">
+        <div id="map-container" class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12" role="application">
+            <img id="static-map-img" src="" alt="Static map image of New York">
+            <div id="map" class="hidden"></div>
+        </div>
+        <div id="filters" class="filter-container mdc-layout-grid__cell mdc-layout-grid__cell--span-12" tabindex="-1">
             <div class="filter-options">
                 <div class="filter-header-container">
                     <h2>Filter Results</h2>
@@ -80,17 +80,20 @@
                 </div>
             </div>
         </div>
-
-        <div class="restaurants-list-container">
-            <ul id="restaurants-list"></ul>
+        <div id="restaurant-container" class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
+            <div class="restaurants-list-container mdc-layout-grid">
+                <div id="restaurants-list" class="mdc-layout-grid__inner">
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
 </main>
 
 <footer class="hidden" id="footer">Copyright (c) 2017 <a href="/"><strong>Tastebook</strong></a> All Rights Reserved.</footer>
 
 <script src="public/js/swhelper.min.js" charset="utf-8" defer></script>
 <script src="public/js/idb.min.js" charset="utf-8" defer></script>
+<script src="public/js/material.io.min.js" charset="utf-8" defer></script>
 <script src="public/js/common.min.js" charset="utf-8" defer></script>
 <script src="public/js/combobox.min.js" charset="utf-8" defer></script>
 <script src="public/js/dbhelper.min.js" charset="utf-8" defer></script>

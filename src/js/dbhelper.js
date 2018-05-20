@@ -29,13 +29,40 @@ class DBHelper {
 	 * Database URL.
 	 * Change this to restaurants.json file location on your server.
 	 */
-	static REMOTE_SERVER_URL(parameter) {
+	static REMOTE_SERVER_URL(parameter, urlParametersAsString) {
 		const port = 1337;
 		let url = `http://localhost:${port}/restaurants`;
 		if (parameter) {
 			url += `/${parameter}`;
 		}
+		if (urlParametersAsString) {
+			url += `/?${urlParametersAsString}`;
+		}
 		return url;
+	}
+
+	/**
+	 * Marks a restaurant as favored
+	 */
+	static favoritesRestaurant(id) {
+		this.updateRestaurantFavoriteStatus(id, 'is_favorite=true');
+	}
+
+	/**
+	 * Marks a restaurant as unfavored.
+	 */
+	static unFavoritesRestaurant(id) {
+		this.updateRestaurantFavoriteStatus(id, 'is_favorite=false');
+	}
+
+	/**
+	 * Marks a restaurant as favored/unfavored.
+	 */
+	static updateRestaurantFavoriteStatus(id, urlParametersAsString) {
+		fetch(DBHelper.REMOTE_SERVER_URL(id, urlParametersAsString), {method: 'PUT'})
+			.then(response => response.status === 200 ? response.json() : null)
+			.then(restaurant => restaurant ? DBHelper.saveRestaurantsToIndexedDB(restaurant) : DBHelper.loadRestaurantsFromIndexedDB(id))
+			.catch(() => DBHelper.loadRestaurantsFromIndexedDB(id));
 	}
 
 	/**

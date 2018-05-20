@@ -1,6 +1,18 @@
 @charset "utf-8";
-asd
-  /* Common styles */
+
+.mdc-layout-grid__inner {
+  width: 100%;
+}
+
+.mdc-card__media--square::before {
+  margin-top: 0;
+}
+
+.mdc-card {
+  border-radius: 0;
+}
+
+/* Common styles */
 * {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -138,7 +150,7 @@ header, nav, footer, section, article, div {
 #maincontent {
   min-height: 100%;
   min-width: 300px;
-  padding-bottom: 80px;
+  padding-bottom: 120px;
   display: flex;
   flex-wrap: wrap;
 }
@@ -194,10 +206,6 @@ header, nav, footer, section, article, div {
 }
 
 /* Restaurant list */
-.restaurants-list-container {
-  padding: 48px;
-}
-
 #restaurants-list {
   background-color: #f3f3f3;
   list-style: outside none none;
@@ -245,25 +253,25 @@ header, nav, footer, section, article, div {
   margin: 10px 10px 10px;
 }
 
-@supports (display: grid) {
-  #restaurants-list {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    grid-gap: 20px;
-  }
-
-  @media screen and (min-width: 900px) {
-    #restaurants-list {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media screen and (min-width: 1350px) {
-    #restaurants-list {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-}
+//@supports (display: grid) {
+//  #restaurants-list {
+//    display: grid;
+//    grid-template-columns: repeat(1, 1fr);
+//    grid-gap: 20px;
+//  }
+//
+//  @media screen and (min-width: 900px) {
+//    #restaurants-list {
+//      grid-template-columns: repeat(2, 1fr);
+//    }
+//  }
+//
+//  @media screen and (min-width: 1350px) {
+//    #restaurants-list {
+//      grid-template-columns: repeat(3, 1fr);
+//    }
+//  }
+//}
 
 /* Footer */
 #footer {
@@ -367,7 +375,7 @@ li.header {
     padding: .5em;
   }
 
-  .header_title {
+  .header_title,.mdl-icon-toggle__label.material-icons {
     font-size: 30px;
   }
 
@@ -413,7 +421,7 @@ li.header {
     height: 96px;
   }
 
-  .header_title {
+  .header_title,.mdl-icon-toggle__label.material-icons {
     font-size: 36px;
   }
 
@@ -447,7 +455,7 @@ li.header {
     height: 120px;
   }
 
-  .header_title {
+  .header_title,.mdl-icon-toggle__label.material-icons {
     font-size: 42px;
   }
 
@@ -481,7 +489,7 @@ li.header {
     height: 144px;
   }
 
-  .header_title {
+  .header_title, .mdl-icon-toggle__label.material-icons {
     font-size: 48px;
   }
 
