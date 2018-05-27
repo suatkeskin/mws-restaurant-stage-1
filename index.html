@@ -8,12 +8,13 @@
     <meta name="Description" content="A restaurant review application to discover local places.">
     <link rel="icon" type="image/png" href="public/img/favicon.png">
     <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <title>Tastebook</title>
     <style>#preloader{background-color:#fff;height:100vh}.preloader_logo{height:100vh;max-height:100vh;margin:0;padding:5em}.preloader_logo svg{width:100%;height:100%}.hidden{display:none}.skip-link{position:absolute;top:-60px;left:0;background:#BF1722;color:white;padding:8px;z-index:100;border-bottom-right-radius:8px}.skip-link:focus{top:0}</style>
 </head>
 
-<body>
+<body class="mdc-typography mdc-typography--overline">
 
 <a class="skip-link" href="#filters">Skip to filters</a>
 
@@ -31,59 +32,48 @@
     <link href="public/css/index.min.css" rel="stylesheet">
 </noscript>
 
-<header id="header" class="header hidden">
-    <nav class="navbar">
-        <div class="header_logo">
-            <div class="navbar-brand">
-                <svg fill="#ffffff" viewBox="0 0 24 24" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="none" d="M0 0h24v24H0zm15.35 6.41l-1.77-1.77c-.2-.2-.51-.2-.71 0L6 11.53V14h2.47l6.88-6.88c.2-.19.2-.51 0-.71z"/>
-                    <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 14v-2.47l6.88-6.88c.2-.2.51-.2.71 0l1.77 1.77c.2.2.2.51 0 .71L8.47 14H6zm12 0h-7.5l2-2H18v2z"/>
-                </svg>
-            </div>
-            <div>
-                <h1 class="header_title">
-                    <a href="/">Tastebook</a>
-                </h1>
-            </div>
-        </div>
-    </nav>
+<header class="mdc-top-app-bar mdc-top-app-bar--fixed hidden" id="header">
+    <div class="mdc-top-app-bar__row">
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+            <a href="/" class="material-icons mdc-top-app-bar__navigation-icon" tabindex="-1">rate_review</a>
+            <h1 class="mdc-typography--headline3">Tastebook</h1>
+        </section>
+    </div>
 </header>
 
-<main class="mdc-layout-grid hidden" id="maincontent">
-    <div class="mdc-layout-grid__inner">
-        <div id="map-container" class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12" role="application">
-            <img id="static-map-img" src="" alt="Static map image of New York">
-            <div id="map" class="hidden"></div>
-        </div>
-        <div id="filters" class="filter-container mdc-layout-grid__cell mdc-layout-grid__cell--span-12" tabindex="-1">
-            <div class="filter-options">
-                <div class="filter-header-container">
-                    <h2>Filter Results</h2>
+<main class="mdc-top-app-bar--fixed-adjust hidden" id="maincontent">
+    <div id="map-container" role="application">
+        <img id="static-map-img" src="" alt="Static map image of New York">
+        <div id="map" class="hidden"></div>
+    </div>
+    <div id="filters" class="mdc-layout-grid filter-container" tabindex="-1">
+        <div class="mdc-layout-grid__inner">
+            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4">
+                <h2 class="mdc-typography--headline5">Filter Results</h2>
+            </div>
+            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-3">
+                <div class="mdc-select mdc-select--box mdc-ripple-upgraded">
+                    <select id="neighborhoods-select" class="mdc-select__native-control">
+                        <option value="All Neighborhoods" selected>All Neighborhoods</option>
+                    </select>
+                    <label class="mdc-floating-label">Choose a neighborhood</label>
+                    <div class="mdc-line-ripple"></div>
                 </div>
-                <div class="filter-neighborhood-container">
-                    <label for="neighborhood">Choose a neighborhood:</label>
-                    <input id="neighborhood" type="text" role="combobox" value="All Neighborhoods">
-                    <div class="neighborhood-listbox" role="listbox" hidden tabindex="-1">
-                        <ul id="neighborhoods-select" role="presentation">
-                            <li role="option">All Neighborhoods</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="filter-cuisine-container">
-                    <label for="cuisine">Choose a cuisine:</label>
-                    <input id="cuisine" type="text" role="combobox" value="All Cuisines">
-                    <div id="cuisine-listbox" role="listbox" hidden tabindex="-1">
-                        <ul id="cuisines-select" role="presentation">
-                            <li role="option">All Cuisines</li>
-                        </ul>
-                    </div>
+            </div>
+            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-3">
+                <div class="mdc-select mdc-select--box mdc-ripple-upgraded">
+                    <select id="cuisines-select" class="mdc-select__native-control">
+                        <option value="All Cuisines" selected>All Cuisines</option>
+                    </select>
+                    <label class="mdc-floating-label">Choose a cuisine</label>
+                    <div class="mdc-line-ripple"></div>
                 </div>
             </div>
         </div>
-        <div id="restaurant-container" class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
-            <div class="restaurants-list-container mdc-layout-grid">
-                <div id="restaurants-list" class="mdc-layout-grid__inner">
-                </div>
+    </div>
+    <div id="restaurant-container">
+        <div class="restaurants-list-container mdc-layout-grid">
+            <div id="restaurants-list" class="mdc-layout-grid__inner">
             </div>
         </div>
     </div>
@@ -95,7 +85,6 @@
 <script src="public/js/idb.min.js" charset="utf-8" defer></script>
 <script src="public/js/material.io.min.js" charset="utf-8" defer></script>
 <script src="public/js/common.min.js" charset="utf-8" defer></script>
-<script src="public/js/combobox.min.js" charset="utf-8" defer></script>
 <script src="public/js/dbhelper.min.js" charset="utf-8" defer></script>
 <script src="public/js/index.min.js" charset="utf-8" defer></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCn77VVsapalDcL4jdN_etwNX1o52r7yl4&libraries=places" async defer></script>

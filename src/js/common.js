@@ -21,6 +21,7 @@ if (requestAnimationFrame) {
 window.addEventListener('load', () => {
 	fadeOutPreLoader(document.getElementById('preloader'));
 	addMouseOverEventToStaticMap(document.getElementById('static-map-img'));
+	new MDCTopAppBar(document.querySelector('.mdc-top-app-bar'));
 });
 
 /**

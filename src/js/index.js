@@ -6,6 +6,7 @@ var markers = [];
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', () => {
+	initializeMaterialComponents();
 	updateRestaurants();
 });
 
@@ -41,8 +42,8 @@ window.initMap = () => {
  * Update page and map for current restaurants.
  */
 let updateRestaurants = () => {
-	const cuisine = document.getElementById('cuisine');
-	const neighborhood = document.getElementById('neighborhood');
+	const cuisine = document.getElementById('cuisines-select');
+	const neighborhood = document.getElementById('neighborhoods-select');
 
 	DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine.value, neighborhood.value, (error, restaurants) => {
 		if (error) { // Got an error!
@@ -51,6 +52,9 @@ let updateRestaurants = () => {
 			resetRestaurants(restaurants);
 			fillRestaurantsHTML();
 			initializeFavouriteIcons();
+			fillNeighborhoodsHTML();
+			fillCuisinesHTML();
+			addMarkersToMap();
 		}
 	});
 };
@@ -115,11 +119,11 @@ let createRestaurantHTML = (restaurant) => {
 	}
 
 	const mdCardTitle = document.createElement('h2');
-	mdCardTitle.className = 'mdc-card__title mdc-typography--headline3';
+	mdCardTitle.className = 'mdc-card__title mdc-typography--headline4';
 	mdCardTitle.innerHTML = restaurant.name;
 
 	const mdCardSubTitle = document.createElement('h5');
-	mdCardSubTitle.className = 'mdc-card__subtitle mdc-typography--subtitle2';
+	mdCardSubTitle.className = 'mdc-card__subtitle mdc-typography--subtitle1';
 	mdCardSubTitle.innerHTML = restaurant.neighborhood;
 
 	const mdCardPrimary = document.createElement('div');
@@ -128,7 +132,7 @@ let createRestaurantHTML = (restaurant) => {
 	mdCardPrimary.append(mdCardSubTitle);
 
 	const mdCardSecondary = document.createElement('div');
-	mdCardSecondary.className = 'mdc-card__secondary mdc-typography--body2';
+	mdCardSecondary.className = 'mdc-card__secondary mdc-typography--body1';
 	mdCardSecondary.innerHTML = restaurant.address;
 
 	const mdCardPrimaryAction = document.createElement('div');
@@ -176,6 +180,48 @@ let createRestaurantHTML = (restaurant) => {
 };
 
 /**
+ * Set neighborhoods HTML.
+ */
+let fillNeighborhoodsHTML = (restaurants = self.restaurants) => {
+	// Get all neighborhoods from all restaurants
+	const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood);
+	// Remove duplicates from neighborhoods
+	const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) === i);
+	const select = document.getElementById('neighborhoods-select');
+	uniqueNeighborhoods.forEach(neighborhood => {
+		const id = neighborhood.replace(/ /g, '');
+		if (!select.namedItem(id)) {
+			const option = document.createElement('option');
+			option.innerHTML = neighborhood;
+			option.value = neighborhood;
+			option.id = id;
+			select.append(option);
+		}
+	});
+};
+
+/**
+ * Fetch all cuisines and set their HTML.
+ */
+let fillCuisinesHTML = (restaurants = self.restaurants) => {
+	// Get all cuisines from all restaurants
+	const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type);
+	// Remove duplicates from cuisines
+	const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) === i);
+	const select = document.getElementById('cuisines-select');
+	uniqueCuisines.forEach(cuisine => {
+		const id = cuisine.replace(/ /g, '');
+		if (!select.namedItem(id)) {
+			const option = document.createElement('option');
+			option.innerHTML = cuisine;
+			option.value = cuisine;
+			option.id = id;
+			select.append(option);
+		}
+	});
+};
+
+/**
  * Add markers for current restaurants to the map.
  */
 let addMarkersToMap = (restaurants = self.restaurants) => {
@@ -205,5 +251,21 @@ let initializeFavouriteIcons = () => {
 				DBHelper.unFavoritesRestaurant(restaurantId);
 			}
 		});
+	}
+};
+
+/**
+ * Initialize common material components.
+ */
+let initializeMaterialComponents = () => {
+	const mdcSelects = Array.prototype.slice.call(document.querySelectorAll('.mdc-select'));
+	for (const mdcSelect of mdcSelects) {
+		const select = new MDCSelect(mdcSelect);
+		select.listen('change', updateRestaurants);
+	}
+
+	const mdcFloatingLabels = Array.prototype.slice.call(document.querySelectorAll('.mdc-floating-label'));
+	for (const mdcFloatingLabel of mdcFloatingLabels) {
+		new MDCFloatingLabel(mdcFloatingLabel);
 	}
 };
