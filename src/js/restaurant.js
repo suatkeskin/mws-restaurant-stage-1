@@ -108,12 +108,16 @@ let fillRestaurantHTML = (restaurant = self.restaurant) => {
 let fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
 	const hours = document.getElementById('restaurant-hours');
 	for (let key in operatingHours) {
-		const times = operatingHours[key].split(',');
-		for (let timeKey in times) {
-			if (timeKey === '0') {
-				addRestaurantHoursHTML(hours, key, times[timeKey]);
-			} else {
-				addRestaurantHoursHTML(hours, '', times[timeKey]);
+		if (operatingHours.hasOwnProperty(key)) {
+			const times = operatingHours[key].split(',');
+			for (let timeKey in times) {
+				if (times.hasOwnProperty(timeKey)) {
+					if (timeKey === '0') {
+						addRestaurantHoursHTML(hours, key, times[timeKey]);
+					} else {
+						addRestaurantHoursHTML(hours, '', times[timeKey]);
+					}
+				}
 			}
 		}
 	}
