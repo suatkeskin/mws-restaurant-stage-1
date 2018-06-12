@@ -6,13 +6,13 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="#155c8e" name="theme-color">
     <meta name="Description" content="A restaurant review application to discover local places.">
-    <link href="public/img/favicon.png" rel="icon" type="image/png">
-    <link href="/manifest.json" rel="manifest">
+    <link rel="icon" type="image/png" href="public/img/favicon.png">
+    <link rel="manifest" href="/manifest.json">
     <title>Tastebook</title>
     <style>#preloader{background-color:#fff;height:100vh}.preloader_logo{height:100vh;max-height:100vh;margin:0;padding:5em}.preloader_logo svg{width:100%;height:100%}.hidden{display:none}.skip-link{position:absolute;top:-60px;left:0;background:#BF1722;color:white;padding:8px;z-index:100;border-bottom-right-radius:8px}.skip-link:focus{top:0}</style>
 </head>
 
-<body>
+<body class="mdc-typography mdc-typography--overline">
 
 <a class="skip-link" href="#breadcrumb-container">Skip to filters</a>
 
@@ -26,33 +26,27 @@
 </div>
 
 <noscript id="deferred-styles">
-    <link href="public/css/restaurant.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="public/css/material.io.min.css">
+    <link rel="stylesheet" href="public/css/restaurant.min.css">
 </noscript>
 
-<header class="header hidden" id="header">
-    <nav class="navbar">
-        <div class="header_logo">
-            <div class="navbar-brand">
-                <svg fill="#ffffff" viewBox="0 0 24 24" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="none" d="M0 0h24v24H0zm15.35 6.41l-1.77-1.77c-.2-.2-.51-.2-.71 0L6 11.53V14h2.47l6.88-6.88c.2-.19.2-.51 0-.71z"/>
-                    <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 14v-2.47l6.88-6.88c.2-.2.51-.2.71 0l1.77 1.77c.2.2.2.51 0 .71L8.47 14H6zm12 0h-7.5l2-2H18v2z"/>
-                </svg>
-            </div>
-            <div>
-                <h1 class="header_title">
-                    <a href="/">Tastebook</a>
-                </h1>
-            </div>
-        </div>
-    </nav>
+<header class="mdc-top-app-bar mdc-top-app-bar--fixed hidden" id="header">
+    <div class="mdc-top-app-bar__row">
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+            <a href="/" class="material-icons mdc-top-app-bar__navigation-icon" tabindex="-1">rate_review</a>
+            <h1 class="mdc-typography--headline3">Tastebook</h1>
+        </section>
+    </div>
 </header>
 
-<main class="hidden" id="maincontent">
+<main class="mdc-top-app-bar--fixed-adjust hidden" id="maincontent">
 
-    <section id="map-container" role="application">
+    <div id="map-container" role="application">
         <img id="static-map-img" src="" alt="Static map image of New York">
         <div id="map" class="hidden"></div>
-    </section>
+    </div>
 
     <nav id="breadcrumb-container" aria-label="Breadcrumb">
         <ol id="breadcrumb">
@@ -62,29 +56,42 @@
         </ol>
     </nav>
 
-    <section id="restaurant-container">
-        <h3 id="restaurant-name"></h3>
-        <picture id="restaurant-picture">
-            <source id="restaurant-img-webp-src" type="image/webp" srcset="">
-            <source id="restaurant-img-jpg-src" type="image/jpeg" srcset="">
-            <img id="restaurant-img" src="">
-        </picture>
-        <p id="restaurant-cuisine">
-        <p id="restaurant-address">
-        <table id="restaurant-hours"></table>
-    </section>
+    <div id="restaurant-container">
+        <div class="mdc-card">
+            <div class="mdc-card__primary-action mdc-ripple-upgraded">
+                <div class="mdc-card__media mdc-card__media--square">
+                    <picture id="restaurant-picture"></picture>
+                </div>
+                <div class="mdc-card__primary">
+                    <h4 class="mdc-card__title mdc-typography--headline4" id="restaurant-name"></h4>
+                </div>
+                <div class="mdc-card__secondary mdc-typography--body1">
+                    <p id="restaurant-address"></p>
+                    <ul class="mdc-list demo-list" id="restaurant-hours"></ul>
+                </div>
+            </div>
+            <div class="mdc-card__actions">
+                <div class="mdc-card__action-icons">
+                    <i id="favorite-icon" class="mdc-icon-toggle material-icons mdc-card__action mdc-card__action--icon mdc-ripple-upgraded mdc-ripple-upgraded--unbounded"
+                       tabindex="0" role="button" aria-label="Add to favorites" title="Add to favorites"
+                       data-toggle-on='{"content": "favorite", "label": "Remove from favorites"}' data-toggle-off='{"content": "favorite_border", "label": "Add to favorites"}'>favorite_border</i>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <hr>
 
-    <section id="reviews-container">
-        <ul id="reviews-list"></ul>
-    </section>
+    <div id="reviews-container">
+        <h2 class="mdc-typography--headline2">Reviews</h2>
+    </div>
 </main>
 
 <footer class="hidden" id="footer">Copyright (c) 2017 <a href="/"><strong>Tastebook</strong></a> All Rights Reserved.</footer>
 
 <script src="public/js/swhelper.min.js" charset="utf-8"></script>
 <script src="public/js/idb.min.js" charset="utf-8"></script>
+<script src="public/js/material.io.min.js" charset="utf-8" defer></script>
 <script src="public/js/common.min.js" charset="utf-8"></script>
 <script src="public/js/dbhelper.min.js" charset="utf-8"></script>
 <script src="public/js/restaurant.min.js" charset="utf-8"></script>

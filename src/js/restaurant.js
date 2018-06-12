@@ -1,5 +1,7 @@
 let restaurant;
 let map;
+const satisfactionMap = {1: 'sentiment_very_dissatisfied', 2: 'sentiment_dissatisfied', 3: 'sentiment_satisfied', 4: 'sentiment_satisfied_alt', 5: 'sentiment_very_satisfied'};
+const satisfactionTitleMap = {1: 'Not Satisfied', 2: 'Slightly Satisfied', 3: 'Satisfied', 4: 'Very Satisfied', 5: 'Extremely Satisfied'};
 
 /**
  * Fetch restaurant as soon as the page is loaded.
@@ -56,41 +58,48 @@ let fetchRestaurantFromURL = () => {
  * Create restaurant HTML and add it to the webpage
  */
 let fillRestaurantHTML = (restaurant = self.restaurant) => {
-	const name = document.getElementById('restaurant-name');
-	name.innerHTML = restaurant.name;
-
-	const address = document.getElementById('restaurant-address');
-	address.innerHTML = restaurant.address;
-
-	const webp = document.getElementById('restaurant-img-webp-src');
-	webp.type = 'image/webp';
-	webp.srcset = DBHelper.webpSrcsetForRestaurant(restaurant);
-
-	const img = document.getElementById('restaurant-img-jpg-src');
-	img.type = 'image/jpeg';
-	img.srcset = DBHelper.imageSrcsetForRestaurant(restaurant);
-
+	const picture = document.getElementById('restaurant-picture');
 	const imgSrc = DBHelper.imageUrlForRestaurant(restaurant);
 	if (imgSrc) {
-		const image = document.getElementById('restaurant-img');
+		const webp = document.createElement('source');
+		webp.type = 'image/webp';
+		webp.srcset = DBHelper.webpSrcsetForRestaurant(restaurant);
+
+		const img = document.createElement('source');
+		img.type = 'image/jpeg';
+		img.srcset = DBHelper.imageSrcsetForRestaurant(restaurant);
+
+		const image = document.createElement('img');
 		image.className = 'restaurant-img';
 		image.src = imgSrc;
 		image.srcset = DBHelper.imageSrcsetForRestaurant(restaurant);
 		image.sizes = '100vw';
 		image.alt = `Image of restaurant ${restaurant.name}`;
+
+		picture.appendChild(webp);
+		picture.appendChild(img);
+		picture.appendChild(image);
 	} else {
-		document.getElementById('restaurant-picture').remove();
+		picture.remove();
 	}
 
-	const cuisine = document.getElementById('restaurant-cuisine');
-	cuisine.innerHTML = restaurant.cuisine_type;
+	const name = document.getElementById('restaurant-name');
+	name.innerHTML = `${restaurant.name} <span class="mdc-card__subtitle mdc-typography--subtitle1"> / ${restaurant.cuisine_type}</span>`;
+
+	const address = document.getElementById('restaurant-address');
+	address.innerHTML = restaurant.address;
+
+	const favoriteIcon = document.getElementById('favorite-icon');
+	favoriteIcon.setAttribute('aria-pressed', restaurant.is_favorite);
+	favoriteIcon.setAttribute('restaurant-id', restaurant.id);
+	initializeFavouriteIcons();
 
 	// fill operating hours
 	if (restaurant.operating_hours) {
 		fillRestaurantHoursHTML();
 	}
-	// fill reviews
-	fillReviewsHTML();
+	// fetch reviews
+	fetchReviewsFromURL();
 };
 
 /**
@@ -111,66 +120,97 @@ let fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours)
 };
 
 let addRestaurantHoursHTML = (hours, dayDetail, timeDetail) => {
-	const row = document.createElement('tr');
-	const day = document.createElement('td');
+	const day = document.createElement('span');
+	day.className = 'mdc-list-item__text';
 	day.innerHTML = dayDetail;
-	row.appendChild(day);
 
-	const time = document.createElement('td');
+	const time = document.createElement('span');
+	time.className = 'mdc-list-item__meta';
 	time.innerHTML = timeDetail;
-	row.appendChild(time);
-	hours.appendChild(row);
+
+	const row = document.createElement('li');
+	row.className = 'mdc-list-item mdc-ripple-upgraded';
+	row.append(day);
+	row.append(time);
+	hours.append(row);
 };
 
 /**
- * Create all reviews HTML and add them to the webpage.
+ * Get all reviews by current restaurant id from remote server.
  */
-let fillReviewsHTML = (reviews = self.restaurant.reviews) => {
-	const container = document.getElementById('reviews-container');
-	const title = document.createElement('h4');
-	title.innerHTML = 'Reviews';
-	container.appendChild(title);
+let fetchReviewsFromURL = (restaurant = self.restaurant) => {
+	DBHelper.fetchReviews(restaurant.id, (error, reviews) => {
+		if (!error) {
+			fillReviewsHTML(reviews);
+		}
+	});
+};
 
+/**
+ * Create all reviews HTML and add them to the web page.
+ */
+let fillReviewsHTML = (reviews) => {
+	const container = document.getElementById('reviews-container');
 	if (!reviews) {
 		const noReviews = document.createElement('p');
 		noReviews.innerHTML = 'No reviews yet!';
 		container.appendChild(noReviews);
 		return;
 	}
-	const ul = document.getElementById('reviews-list');
-	reviews.forEach(review => {
-		ul.appendChild(createReviewHTML(review));
-	});
-	container.appendChild(ul);
+
+	if (reviews instanceof Array) {
+		reviews.forEach(review => {
+			const reviewCard = createReviewHTML(review);
+			container.append(reviewCard);
+		});
+	} else {
+		const reviewCard = createReviewHTML(reviews);
+		container.append(reviewCard);
+	}
 };
 
 /**
  * Create review HTML and add it to the web page.
  */
 let createReviewHTML = (review) => {
-	const li = document.createElement('li');
+	const mdCardTitle = document.createElement('h4');
+	mdCardTitle.className = 'mdc-card__title mdc-typography--headline4';
+	const updatedAt = getFormattedDate(review.updatedAt);
+	mdCardTitle.innerHTML = `${review.name} <span class="mdc-card__subtitle mdc-typography--subtitle1"> / ${updatedAt}</span>`;
 
-	const comments = document.createElement('p');
-	comments.innerHTML = review.comments;
-	li.appendChild(comments);
+	const mdCardPrimary = document.createElement('div');
+	mdCardPrimary.className = 'mdc-card__primary';
+	mdCardPrimary.append(mdCardTitle);
 
-	const strong = document.createElement('strong');
-	strong.innerHTML = review.name;
-	const name = document.createElement('h5');
-	name.appendChild(strong);
-	li.appendChild(name);
+	const mdCardSecondary = document.createElement('div');
+	mdCardSecondary.className = 'mdc-card__secondary mdc-typography--body1';
+	mdCardSecondary.innerHTML = review.comments;
 
-	const date = document.createElement('p');
-	date.classList.add('date');
-	date.innerHTML = review.date;
-	li.appendChild(date);
+	const mdCardPrimaryAction = document.createElement('div');
+	mdCardPrimaryAction.className = 'mdc-card__primary-action mdc-ripple-upgraded';
+	mdCardPrimaryAction.append(mdCardPrimary);
+	mdCardPrimaryAction.append(mdCardSecondary);
 
-	const rating = document.createElement('div');
-	rating.classList.add('rating');
-	rating.classList.add(`rating-${review.rating}`);
-	li.appendChild(rating);
+	const satisfictionIcon = document.createElement('i');
+	satisfictionIcon.className = 'mdc-icon-toggle material-icons mdc-card__action mdc-card__action--icon mdc-ripple-upgraded mdc-ripple-upgraded--unbounded';
+	satisfictionIcon.innerHTML = satisfactionMap[review.rating];
+	satisfictionIcon.setAttribute('tabindex', 0);
+	satisfictionIcon.setAttribute('role', 'button');
+	satisfictionIcon.setAttribute('title', satisfactionTitleMap[review.rating]);
 
-	return li;
+	const mdCardActionIcons = document.createElement('div');
+	mdCardActionIcons.className = 'mdc-card__action-icons';
+	mdCardActionIcons.append(satisfictionIcon);
+
+	const mdCardActions = document.createElement('div');
+	mdCardActions.className = 'mdc-card__actions';
+	mdCardActions.append(mdCardActionIcons);
+
+	const mdCard = document.createElement('div');
+	mdCard.className = 'mdc-card';
+	mdCard.append(mdCardPrimaryAction);
+	mdCard.append(mdCardActions);
+	return mdCard;
 };
 
 /**
@@ -201,4 +241,33 @@ let getParameterByName = (name, url) => {
 	if (!results[2])
 		return '';
 	return decodeURIComponent(results[2].replace(/\+/g, ' '));
+};
+
+let getFormattedDate = (longTime) => {
+	const d = new Date(longTime);
+	return [(d.getMonth() + 1).padLeft(), d.getDate().padLeft(), d.getFullYear()].join('.') + ' ' + [d.getHours().padLeft(), d.getMinutes().padLeft(), d.getSeconds().padLeft()].join(':');
+};
+
+/**
+ * Initialize favourite icons for each restaurant.
+ */
+let initializeFavouriteIcons = () => {
+	const mdcIcons = Array.prototype.slice.call(document.querySelectorAll('.mdc-icon-toggle'));
+	for (const mdcIcon of mdcIcons) {
+		MDCIconToggle.attachTo(mdcIcon);
+		mdcIcon.addEventListener('MDCIconToggle:change', (event) => {
+			const target = event.target || event.srcElement;
+			const restaurantId = target.getAttribute('restaurant-id');
+			if (target.getAttribute('aria-pressed') === 'true') {
+				DBHelper.favoritesRestaurant(restaurantId);
+			} else {
+				DBHelper.unFavoritesRestaurant(restaurantId);
+			}
+		});
+	}
+};
+
+Number.prototype.padLeft = function (base, chr) {
+	const len = (String(base || 10).length - String(this).length) + 1;
+	return len > 0 ? new Array(len).join(chr || '0') + this : this;
 };

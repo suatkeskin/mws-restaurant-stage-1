@@ -8,8 +8,6 @@
     <meta name="Description" content="A restaurant review application to discover local places.">
     <link rel="icon" type="image/png" href="public/img/favicon.png">
     <link rel="manifest" href="/manifest.json">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <title>Tastebook</title>
     <style>#preloader{background-color:#fff;height:100vh}.preloader_logo{height:100vh;max-height:100vh;margin:0;padding:5em}.preloader_logo svg{width:100%;height:100%}.hidden{display:none}.skip-link{position:absolute;top:-60px;left:0;background:#BF1722;color:white;padding:8px;z-index:100;border-bottom-right-radius:8px}.skip-link:focus{top:0}</style>
 </head>
@@ -28,8 +26,10 @@
 </div>
 
 <noscript id="deferred-styles">
-    <link href="public/css/material.io.min.css" rel="stylesheet">
-    <link href="public/css/index.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="public/css/material.io.min.css">
+    <link rel="stylesheet" href="public/css/index.min.css">
 </noscript>
 
 <header class="mdc-top-app-bar mdc-top-app-bar--fixed hidden" id="header">
@@ -42,10 +42,12 @@
 </header>
 
 <main class="mdc-top-app-bar--fixed-adjust hidden" id="maincontent">
+
     <div id="map-container" role="application">
         <img id="static-map-img" src="" alt="Static map image of New York">
         <div id="map" class="hidden"></div>
     </div>
+
     <div id="filters" class="mdc-layout-grid filter-container" tabindex="-1">
         <div class="mdc-layout-grid__inner">
             <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4">
@@ -71,12 +73,14 @@
             </div>
         </div>
     </div>
+
     <div id="restaurant-container">
         <div class="restaurants-list-container mdc-layout-grid">
             <div id="restaurants-list" class="mdc-layout-grid__inner">
             </div>
         </div>
     </div>
+
 </main>
 
 <footer class="hidden" id="footer">Copyright (c) 2017 <a href="/"><strong>Tastebook</strong></a> All Rights Reserved.</footer>

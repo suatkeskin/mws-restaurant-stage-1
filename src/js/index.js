@@ -118,11 +118,11 @@ let createRestaurantHTML = (restaurant) => {
 		mdCardMedia.append(picture);
 	}
 
-	const mdCardTitle = document.createElement('h2');
+	const mdCardTitle = document.createElement('h4');
 	mdCardTitle.className = 'mdc-card__title mdc-typography--headline4';
 	mdCardTitle.innerHTML = restaurant.name;
 
-	const mdCardSubTitle = document.createElement('h5');
+	const mdCardSubTitle = document.createElement('h4');
 	mdCardSubTitle.className = 'mdc-card__subtitle mdc-typography--subtitle1';
 	mdCardSubTitle.innerHTML = restaurant.neighborhood;
 

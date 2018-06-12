@@ -15,9 +15,11 @@ let openIndexedDB = () => {
 	if (!('serviceWorker' in navigator)) {
 		return Promise.resolve();
 	}
-	return idb.open('restaurants-db', 1, function (upgradeDb) {
+	return idb.open('tastebook-db', 1, function (upgradeDb) {
 		let restaurantsStore = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
 		restaurantsStore.createIndex('by-id', 'id');
+		let reviewsStore = upgradeDb.createObjectStore('reviews', {keyPath: 'id'});
+		reviewsStore.createIndex('by-restaurant-id', 'restaurant_id');
 	});
 };
 
@@ -29,9 +31,9 @@ class DBHelper {
 	 * Database URL.
 	 * Change this to restaurants.json file location on your server.
 	 */
-	static REMOTE_SERVER_URL(parameter, urlParametersAsString) {
+	static REMOTE_SERVER_URL(collection, parameter, urlParametersAsString) {
 		const port = 1337;
-		let url = `http://localhost:${port}/restaurants`;
+		let url = `http://localhost:${port}/${collection}`;
 		if (parameter) {
 			url += `/${parameter}`;
 		}
@@ -59,7 +61,7 @@ class DBHelper {
 	 * Marks a restaurant as favored/unfavored.
 	 */
 	static updateRestaurantFavoriteStatus(id, urlParametersAsString) {
-		fetch(DBHelper.REMOTE_SERVER_URL(id, urlParametersAsString), {method: 'PUT'})
+		fetch(DBHelper.REMOTE_SERVER_URL('restaurants', id, urlParametersAsString), {method: 'PUT'})
 			.then(response => response.status === 200 ? response.json() : null)
 			.then(restaurant => restaurant ? DBHelper.saveRestaurantsToIndexedDB(restaurant) : DBHelper.loadRestaurantsFromIndexedDB(id))
 			.catch(() => DBHelper.loadRestaurantsFromIndexedDB(id));
@@ -70,12 +72,11 @@ class DBHelper {
 	 * Load all restaurants from remote server, if fails load from indexed DB
 	 */
 	static fetchRestaurants(id, callback) {
-		fetch(DBHelper.REMOTE_SERVER_URL(id))
+		fetch(DBHelper.REMOTE_SERVER_URL('restaurants', id))
 			.then(response => response.status === 200 ? response.json() : null)
 			.then(restaurants => restaurants ? DBHelper.saveRestaurantsToIndexedDB(restaurants) : DBHelper.loadRestaurantsFromIndexedDB(id))
 			.catch((error) => {
 				console.error('Can not fetch restaurants from remote server, will load from database!');
-				console.error(error);
 				return DBHelper.loadRestaurantsFromIndexedDB(id);
 			}).then((restaurants) => callback(null, restaurants));
 	}
@@ -178,6 +179,56 @@ class DBHelper {
 			url: DBHelper.urlForRestaurant(restaurant),
 			map: map,
 			animation: google.maps.Animation.DROP
+		});
+	}
+
+	/**
+	 * Fetch all reviews from remote server.
+	 * Load all reviews from remote server, if fails load from indexed DB
+	 */
+	static fetchReviews(restaurantId, callback) {
+		fetch(DBHelper.REMOTE_SERVER_URL('reviews', null, `restaurant_id=${restaurantId}`))
+			.then(response => response.status === 200 ? response.json() : null)
+			.then(reviews => reviews ? DBHelper.saveReviewsToIndexedDB(reviews) : DBHelper.loadReviewsFromIndexedDB(restaurantId))
+			.catch((error) => {
+				console.error('Can not fetch reviews from remote server, will load from database!');
+				return DBHelper.loadReviewsFromIndexedDB(restaurantId);
+			}).then((reviews) => callback(null, reviews));
+	}
+
+	/**
+	 * Save reviews to indexed DB.
+	 */
+	static saveReviewsToIndexedDB(reviews) {
+		return dbPromise.then(function (db) {
+			if (reviews) {
+				const tx = db.transaction('reviews', 'readwrite');
+				const reviewsStore = tx.objectStore('reviews');
+				if (reviews instanceof Array) {
+					reviews.forEach(function (review) {
+						reviewsStore.put(review);
+					});
+				} else {
+					reviewsStore.put(reviews);
+				}
+				return tx.complete;
+			}
+		}).then(function () {
+			return reviews;
+		});
+	}
+
+	/**
+	 * Load reviews from indexed DB.
+	 */
+	static loadReviewsFromIndexedDB(restaurantId) {
+		return dbPromise.then(function (db) {
+			const tx = db.transaction('reviews');
+			const reviewsStore = tx.objectStore('reviews');
+			const idIndex = reviewsStore.index('by-restaurant-id');
+			return restaurantId ? reviewsStore.get(Number(restaurantId)) : idIndex.getAll();
+		}).then(function (reviews) {
+			return reviews;
 		});
 	}
 }
