@@ -151,7 +151,7 @@ let createRestaurantHTML = (restaurant) => {
 	mdCardActionButtons.append(viewDetailsButton);
 
 	const favoriteIcon = document.createElement('i');
-	favoriteIcon.className = 'mdc-icon-toggle material-icons mdc-card__action mdc-card__action--icon mdc-ripple-upgraded mdc-ripple-upgraded--unbounded';
+	favoriteIcon.className = 'mdc-favorite-icons mdc-icon-toggle material-icons mdc-card__action mdc-card__action--icon mdc-ripple-upgraded mdc-ripple-upgraded--unbounded';
 	favoriteIcon.innerHTML = 'favorite_border';
 	favoriteIcon.setAttribute('tabindex', 0);
 	favoriteIcon.setAttribute('role', 'button');
@@ -239,7 +239,7 @@ let addMarkersToMap = (restaurants = self.restaurants) => {
  * Initialize favourite icons for each restaurant.
  */
 let initializeFavouriteIcons = () => {
-	const mdcIcons = Array.prototype.slice.call(document.querySelectorAll('.mdc-icon-toggle'));
+	const mdcIcons = Array.prototype.slice.call(document.querySelectorAll('.mdc-favorite-icons'));
 	for (const mdcIcon of mdcIcons) {
 		MDCIconToggle.attachTo(mdcIcon);
 		mdcIcon.addEventListener('MDCIconToggle:change', (event) => {

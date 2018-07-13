@@ -33,12 +33,12 @@ class DBHelper {
 	 */
 	static REMOTE_SERVER_URL(collection, parameter, urlParametersAsString) {
 		const port = 1337;
-		let url = `http://localhost:${port}/${collection}`;
+		let url = `http://localhost:${port}/${collection}/`;
 		if (parameter) {
-			url += `/${parameter}`;
+			url += `${parameter}/`;
 		}
 		if (urlParametersAsString) {
-			url += `/?${urlParametersAsString}`;
+			url += `?${urlParametersAsString}`;
 		}
 		return url;
 	}
@@ -75,7 +75,7 @@ class DBHelper {
 		fetch(DBHelper.REMOTE_SERVER_URL('restaurants', id))
 			.then(response => response.status === 200 ? response.json() : null)
 			.then(restaurants => restaurants ? DBHelper.saveRestaurantsToIndexedDB(restaurants) : DBHelper.loadRestaurantsFromIndexedDB(id))
-			.catch((error) => {
+			.catch(() => {
 				console.error('Can not fetch restaurants from remote server, will load from database!');
 				return DBHelper.loadRestaurantsFromIndexedDB(id);
 			}).then((restaurants) => callback(null, restaurants));
@@ -124,6 +124,7 @@ class DBHelper {
 			if (restaurants) {
 				const tx = db.transaction('restaurants', 'readwrite');
 				const restaurantsStore = tx.objectStore('restaurants');
+				restaurantsStore.clear();
 				if (restaurants instanceof Array) {
 					restaurants.forEach(function (restaurant) {
 						restaurantsStore.put(restaurant);
@@ -183,6 +184,31 @@ class DBHelper {
 	}
 
 	/**
+	 * Adds a review for given restaurant
+	 */
+	static addReview(restaurantId, reviewData, callback) {
+		fetch(DBHelper.REMOTE_SERVER_URL('reviews'), {method: 'POST', body: JSON.stringify(reviewData), headers: {'Accept': 'application/json', 'Content-Type': 'text/plain'}})
+			.then(response => response.status === 201 ? response.json() : null)
+			.then(review => review ? DBHelper.saveReviewsToIndexedDB(review) : null)
+			.catch(() => {
+				return null;
+			}).then((review) => review ? callback(null, review) : callback('Thanks for your review, will be saved when online!', null));
+	}
+
+	/**
+	 * Delete a review for given restaurant
+	 */
+	static deleteReview(reviewId, callback) {
+		fetch(DBHelper.REMOTE_SERVER_URL('reviews', reviewId), {method: 'DELETE'})
+			.then(response => response.status === 201 ? response.json() : null)
+			.then(review => review ? DBHelper.deleteReviewsFromIndexedDB(review) : null)
+			.catch(() => {
+				console.error('Can not delete review!');
+				return null;
+			}).then((result) => callback(result));
+	}
+
+	/**
 	 * Fetch all reviews from remote server.
 	 * Load all reviews from remote server, if fails load from indexed DB
 	 */
@@ -190,7 +216,7 @@ class DBHelper {
 		fetch(DBHelper.REMOTE_SERVER_URL('reviews', null, `restaurant_id=${restaurantId}`))
 			.then(response => response.status === 200 ? response.json() : null)
 			.then(reviews => reviews ? DBHelper.saveReviewsToIndexedDB(reviews) : DBHelper.loadReviewsFromIndexedDB(restaurantId))
-			.catch((error) => {
+			.catch(() => {
 				console.error('Can not fetch reviews from remote server, will load from database!');
 				return DBHelper.loadReviewsFromIndexedDB(restaurantId);
 			}).then((reviews) => callback(null, reviews));
@@ -204,6 +230,7 @@ class DBHelper {
 			if (reviews) {
 				const tx = db.transaction('reviews', 'readwrite');
 				const reviewsStore = tx.objectStore('reviews');
+				reviewsStore.clear();
 				if (reviews instanceof Array) {
 					reviews.forEach(function (review) {
 						reviewsStore.put(review);
@@ -219,14 +246,36 @@ class DBHelper {
 	}
 
 	/**
+	 * Delete reviews from indexed DB.
+	 */
+	static deleteReviewsFromIndexedDB(reviews) {
+		return dbPromise.then(function (db) {
+			if (reviews) {
+				const tx = db.transaction('reviews', 'readwrite');
+				const reviewsStore = tx.objectStore('reviews');
+				if (reviews instanceof Array) {
+					reviews.forEach(function (review) {
+						reviewsStore.delete(review);
+					});
+				} else {
+					reviewsStore.delete(reviews);
+				}
+				return tx.complete;
+			}
+		}).then(function () {
+			return reviews;
+		});
+	}
+
+	/**
 	 * Load reviews from indexed DB.
 	 */
 	static loadReviewsFromIndexedDB(restaurantId) {
 		return dbPromise.then(function (db) {
 			const tx = db.transaction('reviews');
 			const reviewsStore = tx.objectStore('reviews');
-			const idIndex = reviewsStore.index('by-restaurant-id');
-			return restaurantId ? reviewsStore.get(Number(restaurantId)) : idIndex.getAll();
+			const restaurantIidIndex = reviewsStore.index('by-restaurant-id');
+			return restaurantIidIndex.getAll(Number(restaurantId));
 		}).then(function (reviews) {
 			return reviews;
 		});

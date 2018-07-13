@@ -1,5 +1,7 @@
 let restaurant;
 let map;
+let snackbar;
+let chipSet;
 const satisfactionMap = {1: 'sentiment_very_dissatisfied', 2: 'sentiment_dissatisfied', 3: 'sentiment_satisfied', 4: 'sentiment_satisfied_alt', 5: 'sentiment_very_satisfied'};
 const satisfactionTitleMap = {1: 'Not Satisfied', 2: 'Slightly Satisfied', 3: 'Satisfied', 4: 'Very Satisfied', 5: 'Extremely Satisfied'};
 
@@ -7,7 +9,9 @@ const satisfactionTitleMap = {1: 'Not Satisfied', 2: 'Slightly Satisfied', 3: 'S
  * Fetch restaurant as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', () => {
+	initializeMaterialComponents();
 	fetchRestaurantFromURL();
+	registerAddReviewButtonClickEvent();
 });
 
 /**
@@ -202,12 +206,25 @@ let createReviewHTML = (review) => {
 	satisfictionIcon.setAttribute('role', 'button');
 	satisfictionIcon.setAttribute('title', satisfactionTitleMap[review.rating]);
 
+	const deleteReviewButton = document.createElement('a');
+	deleteReviewButton.className = 'mdc-button mdc-card__action mdc-card__action--button mdc-ripple-upgraded';
+	deleteReviewButton.id = 'delete-review-button';
+	deleteReviewButton.setAttribute('review-id', review.id);
+	deleteReviewButton.innerHTML = 'Delete Review';
+	deleteReviewButton.onclick = deleteReview;
+
+	const mdCardActionButtons = document.createElement('div');
+	mdCardActionButtons.className = 'mdc-card__action-buttons';
+	// mdCardActionButtons.append(editReviewButton);
+	mdCardActionButtons.append(deleteReviewButton);
+
 	const mdCardActionIcons = document.createElement('div');
 	mdCardActionIcons.className = 'mdc-card__action-icons';
 	mdCardActionIcons.append(satisfictionIcon);
 
 	const mdCardActions = document.createElement('div');
 	mdCardActions.className = 'mdc-card__actions';
+	mdCardActions.append(mdCardActionButtons);
 	mdCardActions.append(mdCardActionIcons);
 
 	const mdCard = document.createElement('div');
@@ -256,7 +273,7 @@ let getFormattedDate = (longTime) => {
  * Initialize favourite icons for each restaurant.
  */
 let initializeFavouriteIcons = () => {
-	const mdcIcons = Array.prototype.slice.call(document.querySelectorAll('.mdc-icon-toggle'));
+	const mdcIcons = Array.prototype.slice.call(document.querySelectorAll('.mdc-favorite-icons'));
 	for (const mdcIcon of mdcIcons) {
 		MDCIconToggle.attachTo(mdcIcon);
 		mdcIcon.addEventListener('MDCIconToggle:change', (event) => {
@@ -271,6 +288,128 @@ let initializeFavouriteIcons = () => {
 	}
 };
 
+/**
+ * Register click event ro add-review-button.
+ */
+let registerAddReviewButtonClickEvent = () => {
+	const addReviewButton = document.getElementById('add-review-button');
+	addReviewButton.onclick = addReview;
+};
+
+/**
+ * Register click event ro add-review-button.
+ */
+let addReview = () => {
+	const nameInput = document.getElementById('name');
+	if (!nameInput || !nameInput.value) {
+		showSnackMessage('Please type your name.');
+		return;
+	}
+	const commentTextArea = document.getElementById('comment');
+	if (!commentTextArea || !commentTextArea.value) {
+		showSnackMessage('Please type your review.');
+		return;
+	}
+	const mdcChip = document.querySelector('#satisfaction-chips > .mdc-chip--selected');
+	if (!mdcChip) {
+		showSnackMessage('Please select a rating.');
+		return;
+	}
+
+	const restaurantId = self.restaurant.id;
+	const name = nameInput.value;
+	const comment = commentTextArea.value;
+	const rating = mdcChip.getAttribute('rating');
+
+	const review = {restaurant_id: restaurantId, name: name, rating: rating, comments: comment};
+	DBHelper.addReview(restaurantId, review, (error, reviews) => {
+		if (!error) {
+			fillReviewsHTML(reviews);
+			clearReviewForm();
+			scrollToLastReview();
+			showSnackMessage('Thanks for your review.');
+		} else {
+			showSnackMessage(error);
+		}
+	});
+};
+
+/**
+ * Delete review action.
+ */
+let deleteReview = (event) => {
+	const target = event.target || event.srcElement;
+	const reviewId = target.getAttribute('review-id');
+	DBHelper.deleteReview(reviewId, (error) => {
+		if (!error) {
+			const container = document.getElementById('reviews-container');
+			const review = target.parentElement.parentElement.parentElement;
+			container.removeChild(review);
+			showSnackMessage('Review deleted!');
+		} else {
+			showSnackMessage(error);
+		}
+	});
+};
+
+/**
+ * Scroll to review form.
+ */
+let scrollToReviewForm = () => {
+	document.getElementById('add-review-container').scrollIntoView({behavior: 'smooth'});
+};
+
+/**
+ * Scroll to lastly added review.
+ */
+let scrollToLastReview = () => {
+	document.querySelector('#reviews-container .mdc-card:last-child').scrollIntoView({behavior: 'smooth'});
+};
+
+/**
+ * Clear review form.
+ */
+let clearReviewForm = () => {
+	document.getElementById('add-review-form').reset();
+	chipSet.foundation_.deselectAll_();
+};
+
+/**
+ * Initialize common material components.
+ */
+let initializeMaterialComponents = () => {
+	const addReviewButton = document.getElementById('add-review');
+	addReviewButton.onclick = scrollToReviewForm;
+	new MDCRipple(addReviewButton);
+
+	new MDCTextField(document.getElementById('name-text-field'));
+	new MDCTextField(document.getElementById('review-textarea'));
+	chipSet = new MDCChipSet(document.getElementById('satisfaction-chips'));
+
+	snackbar = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
+};
+
+/**
+ * Show message to user on screen
+ */
+let showSnackMessage = (message) => {
+	snackbar.show({message: message});
+};
+
+/**
+ * Position add review button according to scroll position.
+ */
+window.onscroll = function () {
+	if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 80) {
+		document.getElementById('add-review').style.bottom = '100px';
+	} else {
+		document.getElementById('add-review').style.bottom = '10px';
+	}
+};
+
+/**
+ * Add padLeft prototype to Number.
+ */
 Number.prototype.padLeft = function (base, chr) {
 	const len = (String(base || 10).length - String(this).length) + 1;
 	return len > 0 ? new Array(len).join(chr || '0') + this : this;

@@ -34,6 +34,9 @@ if (workbox) {
 
 	// Restaurant data requests
 	workbox.routing.registerRoute(new RegExp('https://maps.googleapis.com/maps/api/(.*)'), workbox.strategies.networkFirst());
+
+	const bgSyncPlugin = new workbox.backgroundSync.Plugin('reviews-queue');
+	workbox.routing.registerRoute(new RegExp('(.*)/reviews/(.*)'), workbox.strategies.networkOnly({plugins: [bgSyncPlugin]}), 'POST');
 } else {
 	console.log(`Workbox didn't load 👎`);
 }

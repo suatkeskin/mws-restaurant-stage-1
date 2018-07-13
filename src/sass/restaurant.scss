@@ -42,6 +42,14 @@
   padding: 16px 0;
 }
 
+.mdc-top-app-bar .mdc-top-app-bar__navigation-icon {
+  color: #ffffff;
+}
+
+.mdc-text-field--outlined, .mdc-text-field--textarea {
+  width: 100%;
+}
+
 html {
   height: 100%;
 }
@@ -85,9 +93,8 @@ header, footer, section, div {
 }
 
 /* Focus style */
-#footer > a:hover,
-#footer > a:focus {
-  background: #155c8e;
+#footer > a:hover, #footer > a:focus {
+  background-color: #155c8e;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0),
   0 3px 1px -2px rgba(0, 0, 0, 0),
   0 1px 5px 0 rgba(0, 0, 0, 0);
@@ -151,22 +158,41 @@ header, footer, section, div {
 }
 
 /* Reviews */
-#restaurant-container, #reviews-container {
+#restaurant-container, #reviews-container, #add-review-container {
   padding-left: 32px;
   padding-right: 32px;
   padding-bottom: 32px;
-}
-
-#restaurant-container, #reviews-container {
   max-width: 100%;
 }
 
-#reviews-container h2 {
+#reviews-container h2, #add-review-container h4 {
   text-align: center;
 }
 
-#reviews-container .mdc-card .mdc-card__secondary {
+//#add-review-container, #reviews-container .mdc-card .mdc-card__secondary {
+#reviews-container .mdc-card .mdc-card__secondary, #add-review-container .mdc-card .mdc-card__secondary, .mdc-snackbar {
   text-transform: none;
+}
+
+//#add-review-container {
+//  position: fixed;
+//  z-index: 2;
+//  bottom: 0;
+//  padding: 0 32px;
+//  left: 50%;
+//  transform: translate(-50%, 0);
+//}
+
+//#add-review-container .mdc-card {
+//  box-shadow: 0 2px 2px 0 rgba(255, 215, 133, 133), 0 3px 1px -2px rgba(255, 215, 133, 133), 0 1px 5px 0 rgba(255, 215, 133, 133);
+//}
+
+/* FAB button*/
+#add-review {
+  //background-color: #155c8e;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
 }
 
 /* Footer */
@@ -192,7 +218,7 @@ header, footer, section, div {
 }
 
 /* Common styles */
-.mdc-top-app-bar, #footer, #map-container, #map, #breadcrumb-container, #restaurant-container, #reviews-container {
+.mdc-top-app-bar, #footer, #map-container, #map, #breadcrumb-container, #restaurant-container, #reviews-container, #add-review-container {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -230,7 +256,7 @@ header, footer, section, div {
     font-size: 20px;
   }
 
-  #restaurant-container, #reviews-container, #maincontent hr {
+  #restaurant-container, #reviews-container, #add-review-container, #maincontent hr {
     width: 900px;
   }
 }
@@ -308,7 +334,7 @@ header, footer, section, div {
     font-size: 26px;
   }
 
-  .header, #footer, #breadcrumb-container, #restaurant-container, #reviews-container, #map-container, #map {
+  .header, #footer, #breadcrumb-container, #restaurant-container, #reviews-container, #add-review-container, #map-container, #map {
     width: 2000px;
   }
 }

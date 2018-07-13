@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" href="public/img/favicon.png">
     <link rel="manifest" href="/manifest.json">
     <title>Tastebook</title>
-    <style>#preloader{background-color:#fff;height:100vh}.preloader_logo{height:100vh;max-height:100vh;margin:0;padding:5em}.preloader_logo svg{width:100%;height:100%}.hidden{display:none}.skip-link{position:absolute;top:-60px;left:0;background:#BF1722;color:white;padding:8px;z-index:100;border-bottom-right-radius:8px}.skip-link:focus{top:0}</style>
+    <style>#preloader{background-color:#fff;height:100vh}.preloader_logo{height:100vh;max-height:100vh;margin:0;padding:5em}.preloader_logo svg{width:100%;height:100%}.hidden{display:none}.skip-link{position:absolute;top:-60px;left:0;background:#BF1722;color:white;padding:8px;z-index:100;border-bottom-right-radius:8px}.skip-link:focus{top:0}.mdc-snackbar{transform:translateY(100%);}</style>
 </head>
 
 <body class="mdc-typography mdc-typography--overline">
@@ -72,7 +72,7 @@
             </div>
             <div class="mdc-card__actions">
                 <div class="mdc-card__action-icons">
-                    <i id="favorite-icon" class="mdc-icon-toggle material-icons mdc-card__action mdc-card__action--icon mdc-ripple-upgraded mdc-ripple-upgraded--unbounded"
+                    <i id="favorite-icon" class="mdc-favorite-icons mdc-icon-toggle material-icons mdc-card__action mdc-card__action--icon mdc-ripple-upgraded mdc-ripple-upgraded--unbounded"
                        tabindex="0" role="button" aria-label="Add to favorites" title="Add to favorites"
                        data-toggle-on='{"content": "favorite", "label": "Remove from favorites"}' data-toggle-off='{"content": "favorite_border", "label": "Add to favorites"}'>favorite_border</i>
                 </div>
@@ -84,6 +84,101 @@
 
     <div id="reviews-container">
         <h2 class="mdc-typography--headline2">Reviews</h2>
+    </div>
+
+    <hr>
+
+    <div id="add-review-container">
+        <div class="mdc-card" id="review-card">
+            <div class="mdc-card__primary-action mdc-ripple-upgraded">
+                <div class="mdc-card__primary">
+                    <h4 class="mdc-card__title mdc-typography--headline4">Rate and review</h4>
+                </div>
+                <div class="mdc-card__secondary mdc-typography--body1">
+                    <form id="add-review-form">
+                        <div class="mdc-text-field mdc-text-field--outlined" id="name-text-field">
+                            <input class="mdc-text-field__input" id="name" type="text">
+                            <label class="mdc-floating-label" for="name">Your Name</label>
+                            <div class="mdc-notched-outline">
+                                <svg>
+                                    <path class="mdc-notched-outline__path"></path>
+                                </svg>
+                            </div>
+                            <div class="mdc-notched-outline__idle"></div>
+                        </div>
+
+                        <div class="mdc-text-field mdc-text-field--textarea" id="review-textarea">
+                            <textarea id="comment" class="mdc-text-field__input" rows="8" cols="40"></textarea>
+                            <label for="comment" class="mdc-floating-label">Review</label>
+                        </div>
+
+                        <div class="mdc-chip-set mdc-chip-set--choice" id="satisfaction-chips">
+                            <div class="mdc-chip" rating="1">
+                                <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">sentiment_very_dissatisfied</i>
+                                <div class="mdc-chip__checkmark" >
+                                    <svg class="mdc-chip__checkmark-svg" viewBox="-2 -3 30 30">
+                                        <path class="mdc-chip__checkmark-path" fill="none" stroke="black" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+                                    </svg>
+                                </div>
+                                <div class="mdc-chip__text">Not Satisfied</div>
+                            </div>
+                            <div class="mdc-chip" rating="2">
+                                <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">sentiment_dissatisfied</i>
+                                <div class="mdc-chip__checkmark" >
+                                    <svg class="mdc-chip__checkmark-svg" viewBox="-2 -3 30 30">
+                                        <path class="mdc-chip__checkmark-path" fill="none" stroke="black" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+                                    </svg>
+                                </div>
+                                <div class="mdc-chip__text">Slightly Satisfied</div>
+                            </div>
+                            <div class="mdc-chip" rating="3">
+                                <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">sentiment_satisfied</i>
+                                <div class="mdc-chip__checkmark" >
+                                    <svg class="mdc-chip__checkmark-svg" viewBox="-2 -3 30 30">
+                                        <path class="mdc-chip__checkmark-path" fill="none" stroke="black" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+                                    </svg>
+                                </div>
+                                <div class="mdc-chip__text">Satisfied</div>
+                            </div>
+                            <div class="mdc-chip" rating="4">
+                                <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">sentiment_satisfied_alt</i>
+                                <div class="mdc-chip__checkmark" >
+                                    <svg class="mdc-chip__checkmark-svg" viewBox="-2 -3 30 30">
+                                        <path class="mdc-chip__checkmark-path" fill="none" stroke="black" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+                                    </svg>
+                                </div>
+                                <div class="mdc-chip__text">Very Satisfied</div>
+                            </div>
+                            <div class="mdc-chip" rating="5">
+                                <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">sentiment_very_satisfied</i>
+                                <div class="mdc-chip__checkmark" >
+                                    <svg class="mdc-chip__checkmark-svg" viewBox="-2 -3 30 30">
+                                        <path class="mdc-chip__checkmark-path" fill="none" stroke="black" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+                                    </svg>
+                                </div>
+                                <div class="mdc-chip__text">Extremely Satisfied</div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="mdc-card__actions">
+                <div class="mdc-card__action-buttons">
+                    <a id="add-review-button" class="mdc-button mdc-card__action mdc-card__action--button">Add Review</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="add-review" class="mdc-fab material-icons" aria-label="Favorite">
+        <span class="mdc-fab__icon">comment</span>
+    </button>
+
+    <div class="mdc-snackbar mdc-snackbar--align-start" aria-live="assertive" aria-atomic="true" aria-hidden="true">
+        <div class="mdc-snackbar__text"></div>
+        <div class="mdc-snackbar__action-wrapper">
+            <button type="button" class="mdc-snackbar__action-button"></button>
+        </div>
     </div>
 </main>
 
