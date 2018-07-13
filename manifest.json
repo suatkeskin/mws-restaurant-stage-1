@@ -1,6 +1,6 @@
 {
-  "short_name": "Tastebook",
-  "name": "Tastebook",
+  "short_name": "Local Guides",
+  "name": "Local Guides",
   "description": "A simple restaurant reviews app.",
   "background_color": "#ffffff",
   "display": "minimal-ui",

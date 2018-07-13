@@ -15,7 +15,7 @@ let openIndexedDB = () => {
 	if (!('serviceWorker' in navigator)) {
 		return Promise.resolve();
 	}
-	return idb.open('tastebook-db', 1, function (upgradeDb) {
+	return idb.open('local-guides-db', 1, function (upgradeDb) {
 		let restaurantsStore = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
 		restaurantsStore.createIndex('by-id', 'id');
 		let reviewsStore = upgradeDb.createObjectStore('reviews', {keyPath: 'id'});
