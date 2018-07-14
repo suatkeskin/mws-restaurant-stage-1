@@ -9,7 +9,45 @@
     <link rel="icon" type="image/png" href="public/img/favicon.png">
     <link rel="manifest" href="/manifest.json">
     <title>Local Guides</title>
-    <style>#preloader{background-color:#fff;height:100vh}.preloader_logo{height:100vh;max-height:100vh;margin:0;padding:5em}.preloader_logo svg{width:100%;height:100%}.hidden{display:none}.skip-link{position:absolute;top:-60px;left:0;background:#BF1722;color:white;padding:8px;z-index:100;border-bottom-right-radius:8px}.skip-link:focus{top:0}.mdc-snackbar{transform:translateY(100%);}</style>
+    <style>#preloader {
+        background-color: #fff;
+        height: 100vh
+    }
+
+    .preloader_logo {
+        height: 100vh;
+        max-height: 100vh;
+        margin: 0;
+        padding: 5em
+    }
+
+    .preloader_logo svg {
+        width: 100%;
+        height: 100%
+    }
+
+    .hidden {
+        display: none
+    }
+
+    .skip-link {
+        position: absolute;
+        top: -60px;
+        left: 0;
+        background: #BF1722;
+        color: white;
+        padding: 8px;
+        z-index: 100;
+        border-bottom-right-radius: 8px
+    }
+
+    .skip-link:focus {
+        top: 0
+    }
+
+    .mdc-snackbar {
+        transform: translateY(100%);
+    }</style>
 </head>
 
 <body class="mdc-typography mdc-typography--overline">
@@ -26,10 +64,10 @@
 </div>
 
 <noscript id="deferred-styles">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="public/css/material.io.min.css">
-    <link rel="stylesheet" href="public/css/restaurant.min.css">
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="public/css/material.io.min.css">
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="public/css/restaurant.min.css">
 </noscript>
 
 <header class="mdc-top-app-bar mdc-top-app-bar--fixed hidden" id="header">
@@ -115,7 +153,7 @@
                         <div class="mdc-chip-set mdc-chip-set--choice" id="satisfaction-chips">
                             <div class="mdc-chip" rating="1">
                                 <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">sentiment_very_dissatisfied</i>
-                                <div class="mdc-chip__checkmark" >
+                                <div class="mdc-chip__checkmark">
                                     <svg class="mdc-chip__checkmark-svg" viewBox="-2 -3 30 30">
                                         <path class="mdc-chip__checkmark-path" fill="none" stroke="black" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
                                     </svg>
@@ -124,7 +162,7 @@
                             </div>
                             <div class="mdc-chip" rating="2">
                                 <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">sentiment_dissatisfied</i>
-                                <div class="mdc-chip__checkmark" >
+                                <div class="mdc-chip__checkmark">
                                     <svg class="mdc-chip__checkmark-svg" viewBox="-2 -3 30 30">
                                         <path class="mdc-chip__checkmark-path" fill="none" stroke="black" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
                                     </svg>
@@ -133,7 +171,7 @@
                             </div>
                             <div class="mdc-chip" rating="3">
                                 <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">sentiment_satisfied</i>
-                                <div class="mdc-chip__checkmark" >
+                                <div class="mdc-chip__checkmark">
                                     <svg class="mdc-chip__checkmark-svg" viewBox="-2 -3 30 30">
                                         <path class="mdc-chip__checkmark-path" fill="none" stroke="black" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
                                     </svg>
@@ -142,7 +180,7 @@
                             </div>
                             <div class="mdc-chip" rating="4">
                                 <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">sentiment_satisfied_alt</i>
-                                <div class="mdc-chip__checkmark" >
+                                <div class="mdc-chip__checkmark">
                                     <svg class="mdc-chip__checkmark-svg" viewBox="-2 -3 30 30">
                                         <path class="mdc-chip__checkmark-path" fill="none" stroke="black" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
                                     </svg>
@@ -151,7 +189,7 @@
                             </div>
                             <div class="mdc-chip" rating="5">
                                 <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">sentiment_very_satisfied</i>
-                                <div class="mdc-chip__checkmark" >
+                                <div class="mdc-chip__checkmark">
                                     <svg class="mdc-chip__checkmark-svg" viewBox="-2 -3 30 30">
                                         <path class="mdc-chip__checkmark-path" fill="none" stroke="black" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
                                     </svg>

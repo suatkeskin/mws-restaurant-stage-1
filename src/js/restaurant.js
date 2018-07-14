@@ -208,7 +208,6 @@ let createReviewHTML = (review) => {
 
 	const deleteReviewButton = document.createElement('a');
 	deleteReviewButton.className = 'mdc-button mdc-card__action mdc-card__action--button mdc-ripple-upgraded';
-	deleteReviewButton.id = 'delete-review-button';
 	deleteReviewButton.setAttribute('review-id', review.id);
 	deleteReviewButton.innerHTML = 'Delete Review';
 	deleteReviewButton.onclick = deleteReview;

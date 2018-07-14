@@ -46,9 +46,7 @@ let updateRestaurants = () => {
 	const neighborhood = document.getElementById('neighborhoods-select');
 
 	DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine.value, neighborhood.value, (error, restaurants) => {
-		if (error) { // Got an error!
-			console.error(error);
-		} else {
+		if (!error) {
 			resetRestaurants(restaurants);
 			fillRestaurantsHTML();
 			initializeFavouriteIcons();

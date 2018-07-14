@@ -76,7 +76,6 @@ class DBHelper {
 			.then(response => response.status === 200 ? response.json() : null)
 			.then(restaurants => restaurants ? DBHelper.saveRestaurantsToIndexedDB(restaurants) : DBHelper.loadRestaurantsFromIndexedDB(id))
 			.catch(() => {
-				console.error('Can not fetch restaurants from remote server, will load from database!');
 				return DBHelper.loadRestaurantsFromIndexedDB(id);
 			}).then((restaurants) => callback(null, restaurants));
 	}
@@ -203,7 +202,6 @@ class DBHelper {
 			.then(response => response.status === 201 ? response.json() : null)
 			.then(review => review ? DBHelper.deleteReviewsFromIndexedDB(review) : null)
 			.catch(() => {
-				console.error('Can not delete review!');
 				return null;
 			}).then((result) => callback(result));
 	}
@@ -217,7 +215,6 @@ class DBHelper {
 			.then(response => response.status === 200 ? response.json() : null)
 			.then(reviews => reviews ? DBHelper.saveReviewsToIndexedDB(reviews) : DBHelper.loadReviewsFromIndexedDB(restaurantId))
 			.catch(() => {
-				console.error('Can not fetch reviews from remote server, will load from database!');
 				return DBHelper.loadReviewsFromIndexedDB(restaurantId);
 			}).then((reviews) => callback(null, reviews));
 	}

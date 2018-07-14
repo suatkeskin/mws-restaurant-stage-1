@@ -10,3 +10,6 @@ handlers:
 - url: /(.*)
   static_files: \1
   upload: (.*)
+
+skip_files:
+- node_modules/

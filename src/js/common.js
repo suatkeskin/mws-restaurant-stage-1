@@ -72,9 +72,9 @@ let showMap = () => {
 window.addEventListener('beforeinstallprompt', function (e) {
 	e.userChoice.then(function (choiceResult) {
 		if (choiceResult.outcome === 'dismissed') {
-			console.error('User cancelled home screen install');
+			// User cancelled home screen install
 		} else {
-			console.log('User added to home screen');
+			// User added to home screen
 		}
 	});
 });
