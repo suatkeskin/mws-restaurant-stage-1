@@ -295,7 +295,7 @@ let addMarkersToMap = () => {
 	cuisinesSelect.className = 'mdc-select__native-control';
 	cuisinesSelect.id = 'cuisines-select';
 	cuisinesSelect.innerHTML = `<option value="All Cuisines" selected>All Cuisines</option>`;
-	cuisinesSelect.setAttribute('aria-labelledby', 'cuisines-label');
+	cuisinesSelect.setAttribute('aria-labelledby', 'cuisine-label');
 
 	const cuisinesSelectLabel = document.createElement('label');
 	cuisinesSelectLabel.className = 'mdc-floating-label';
