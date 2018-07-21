@@ -1,27 +1,22 @@
-/**
- * Create an indexedDB promise
- */
 let dbPromise;
-document.addEventListener('DOMContentLoaded', () => {
-	dbPromise = openIndexedDB();
-});
 
 /**
  * Create an indexedDB that contains one objectStore: 'restaurants' that uses 'id' as its key and has an index called 'by-id', which is sorted by the 'id' property
  * @returns a promise for a database called 'restaurants'
  */
-let openIndexedDB = () => {
+(function () {
 	// If the browser doesn't support service worker, we don't care about having a database
 	if (!('serviceWorker' in navigator)) {
-		return Promise.resolve();
+		dbPromise = Promise.resolve();
+	} else {
+		dbPromise = idb.open('local-guides-db', 1, function (upgradeDb) {
+			let restaurantsStore = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
+			restaurantsStore.createIndex('by-id', 'id');
+			let reviewsStore = upgradeDb.createObjectStore('reviews', {keyPath: 'id'});
+			reviewsStore.createIndex('by-restaurant-id', 'restaurant_id');
+		});
 	}
-	return idb.open('local-guides-db', 1, function (upgradeDb) {
-		let restaurantsStore = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
-		restaurantsStore.createIndex('by-id', 'id');
-		let reviewsStore = upgradeDb.createObjectStore('reviews', {keyPath: 'id'});
-		reviewsStore.createIndex('by-restaurant-id', 'restaurant_id');
-	});
-};
+})();
 
 /**
  * Common database helper functions.

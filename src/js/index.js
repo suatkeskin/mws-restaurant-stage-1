@@ -1,14 +1,28 @@
 let restaurants;
 let map;
 var markers = [];
+let lazyImageObserver;
 
 /**
- * Fetch neighborhoods and cuisines as soon as the page is loaded.
+ * Lazy image lod observer.
  */
-document.addEventListener('DOMContentLoaded', () => {
-	initializeMaterialComponents();
-	updateRestaurants();
-});
+if ('IntersectionObserver' in window) {
+	lazyImageObserver = new IntersectionObserver(function (entries) {
+		entries.forEach(function (entry) {
+			if (entry.isIntersecting) {
+				let lazyImage = entry.target;
+				if (lazyImage.nodeName !== 'SOURCE') {
+					lazyImage.src = lazyImage.dataset.src;
+				}
+				lazyImage.srcset = lazyImage.dataset.srcset;
+				lazyImage.classList.remove('lazy');
+				lazyImageObserver.unobserve(lazyImage);
+			}
+		});
+	});
+} else {
+	// Possibly fall back to a more compatible method here
+}
 
 /**
  * Initialize Google map, called from HTML.
@@ -34,25 +48,20 @@ window.initMap = () => {
 			item.removeAttribute('rel');
 		});
 	});
-	showMap();
 	addMarkersToMap();
 };
 
 /**
  * Update page and map for current restaurants.
  */
-let updateRestaurants = () => {
-	const cuisine = document.getElementById('cuisines-select');
-	const neighborhood = document.getElementById('neighborhoods-select');
-
-	DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine.value, neighborhood.value, (error, restaurants) => {
+let updateRestaurants = (restaurantsList, neighborhoodsSelect, cuisinesSelect, callback) => {
+	DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisinesSelect.value, neighborhoodsSelect.value, (error, restaurants) => {
 		if (!error) {
-			resetRestaurants(restaurants);
-			fillRestaurantsHTML();
-			initializeFavouriteIcons();
-			fillNeighborhoodsHTML();
-			fillCuisinesHTML();
-			addMarkersToMap();
+			resetRestaurants(restaurantsList, restaurants);
+			fillRestaurantsHTML(restaurantsList);
+			fillNeighborhoodsHTML(neighborhoodsSelect, restaurants);
+			fillCuisinesHTML(cuisinesSelect, restaurants);
+			callback();
 		}
 	});
 };
@@ -60,12 +69,10 @@ let updateRestaurants = () => {
 /**
  * Clear current restaurants, their HTML and remove their map markers.
  */
-let resetRestaurants = (restaurants) => {
+let resetRestaurants = (restaurantsList, restaurants) => {
 	// Remove all restaurants
 	self.restaurants = [];
-	const ul = document.getElementById('restaurants-list');
-	ul.innerHTML = '';
-
+	restaurantsList.innerHTML = '';
 	// Remove all map markers
 	self.markers.forEach(m => m.setMap(null));
 	self.markers = [];
@@ -73,12 +80,11 @@ let resetRestaurants = (restaurants) => {
 };
 
 /**
- * Create all restaurants HTML and add them to the webpage.
+ * Create all restaurants HTML and add them to the web page.
  */
-let fillRestaurantsHTML = (restaurants = self.restaurants) => {
-	const div = document.getElementById('restaurants-list');
+let fillRestaurantsHTML = (restaurantsList, restaurants = self.restaurants) => {
 	restaurants.forEach(restaurant => {
-		div.append(createRestaurantHTML(restaurant));
+		restaurantsList.append(createRestaurantHTML(restaurant));
 	});
 };
 
@@ -90,17 +96,21 @@ let createRestaurantHTML = (restaurant) => {
 	const imgSrc = DBHelper.imageUrlForRestaurant(restaurant);
 	if (imgSrc) {
 		const webp = document.createElement('source');
+		webp.className = 'lazy-image';
 		webp.type = 'image/webp';
-		webp.srcset = DBHelper.webpSrcsetForRestaurant(restaurant);
+		webp.srcset = '';
+		webp.setAttribute('data-srcset', DBHelper.webpSrcsetForRestaurant(restaurant));
 
 		const img = document.createElement('source');
+		img.className = 'lazy-image';
 		img.type = 'image/jpeg';
-		img.srcset = DBHelper.imageSrcsetForRestaurant(restaurant);
+		img.srcset = '';
+		img.setAttribute('data-srcset', DBHelper.imageSrcsetForRestaurant(restaurant));
 
 		const image = document.createElement('img');
-		image.className = 'restaurant-img';
-		image.src = imgSrc;
-		image.srcset = DBHelper.imageSrcsetForRestaurant(restaurant);
+		image.className = 'restaurant-img lazy-image';
+		image.setAttribute('data-src', imgSrc);
+		image.setAttribute('data-srcset', DBHelper.imageSrcsetForRestaurant(restaurant));
 		image.sizes = '100vw';
 		image.alt = `Image of restaurant ${restaurant.name}`;
 
@@ -108,6 +118,12 @@ let createRestaurantHTML = (restaurant) => {
 		picture.appendChild(webp);
 		picture.appendChild(img);
 		picture.appendChild(image);
+
+		if (lazyImageObserver) {
+			lazyImageObserver.observe(webp);
+			lazyImageObserver.observe(img);
+			lazyImageObserver.observe(image);
+		}
 	}
 
 	const mdCardMedia = document.createElement('div');
@@ -160,6 +176,17 @@ let createRestaurantHTML = (restaurant) => {
 	favoriteIcon.setAttribute('data-toggle-off', '{"content": "favorite_border", "label": "Add to favorites"}');
 	favoriteIcon.setAttribute('restaurant-id', restaurant.id);
 
+	MDCIconToggle.attachTo(favoriteIcon);
+	favoriteIcon.addEventListener('MDCIconToggle:change', (event) => {
+		const target = event.target || event.srcElement;
+		const restaurantId = target.getAttribute('restaurant-id');
+		if (target.getAttribute('aria-pressed') === 'true') {
+			DBHelper.favoritesRestaurant(restaurantId);
+		} else {
+			DBHelper.unFavoritesRestaurant(restaurantId);
+		}
+	});
+
 	const mdCardActionIcons = document.createElement('div');
 	mdCardActionIcons.className = 'mdc-card__action-icons';
 	mdCardActionIcons.append(favoriteIcon);
@@ -180,20 +207,19 @@ let createRestaurantHTML = (restaurant) => {
 /**
  * Set neighborhoods HTML.
  */
-let fillNeighborhoodsHTML = (restaurants = self.restaurants) => {
+let fillNeighborhoodsHTML = (neighborhoodsSelect = document.getElementById('neighborhoods-select'), restaurants = self.restaurants) => {
 	// Get all neighborhoods from all restaurants
 	const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood);
 	// Remove duplicates from neighborhoods
 	const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) === i);
-	const select = document.getElementById('neighborhoods-select');
 	uniqueNeighborhoods.forEach(neighborhood => {
 		const id = neighborhood.replace(/ /g, '');
-		if (!select.namedItem(id)) {
+		if (!neighborhoodsSelect.namedItem(id)) {
 			const option = document.createElement('option');
 			option.innerHTML = neighborhood;
 			option.value = neighborhood;
 			option.id = id;
-			select.append(option);
+			neighborhoodsSelect.append(option);
 		}
 	});
 };
@@ -201,20 +227,19 @@ let fillNeighborhoodsHTML = (restaurants = self.restaurants) => {
 /**
  * Fetch all cuisines and set their HTML.
  */
-let fillCuisinesHTML = (restaurants = self.restaurants) => {
+let fillCuisinesHTML = (cuisinesSelect = document.getElementById('cuisines-select'), restaurants = self.restaurants) => {
 	// Get all cuisines from all restaurants
 	const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type);
 	// Remove duplicates from cuisines
 	const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) === i);
-	const select = document.getElementById('cuisines-select');
 	uniqueCuisines.forEach(cuisine => {
 		const id = cuisine.replace(/ /g, '');
-		if (!select.namedItem(id)) {
+		if (!cuisinesSelect.namedItem(id)) {
 			const option = document.createElement('option');
 			option.innerHTML = cuisine;
 			option.value = cuisine;
 			option.id = id;
-			select.append(option);
+			cuisinesSelect.append(option);
 		}
 	});
 };
@@ -222,8 +247,13 @@ let fillCuisinesHTML = (restaurants = self.restaurants) => {
 /**
  * Add markers for current restaurants to the map.
  */
-let addMarkersToMap = (restaurants = self.restaurants) => {
-	restaurants.forEach(restaurant => {
+let addMarkersToMap = () => {
+	const mapElement = document.getElementById('map');
+	if (mapElement.classList.contains('hidden')) {
+		return;
+	}
+
+	self.restaurants.forEach(restaurant => {
 		// Add marker to the map
 		const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
 		google.maps.event.addListener(marker, 'click', () => {
@@ -234,36 +264,100 @@ let addMarkersToMap = (restaurants = self.restaurants) => {
 };
 
 /**
- * Initialize favourite icons for each restaurant.
+ * Initialize filter container and update restaurants.
  */
-let initializeFavouriteIcons = () => {
-	const mdcIcons = Array.prototype.slice.call(document.querySelectorAll('.mdc-favorite-icons'));
-	for (const mdcIcon of mdcIcons) {
-		MDCIconToggle.attachTo(mdcIcon);
-		mdcIcon.addEventListener('MDCIconToggle:change', (event) => {
-			const target = event.target || event.srcElement;
-			const restaurantId = target.getAttribute('restaurant-id');
-			if (target.getAttribute('aria-pressed') === 'true') {
-				DBHelper.favoritesRestaurant(restaurantId);
-			} else {
-				DBHelper.unFavoritesRestaurant(restaurantId);
-			}
-		});
-	}
-};
+(function () {
+	const neighborhoodsSelect = document.createElement('select');
+	neighborhoodsSelect.className = 'mdc-select__native-control';
+	neighborhoodsSelect.id = 'neighborhoods-select';
+	neighborhoodsSelect.innerHTML = `<option value="All Neighborhoods" selected>All Neighborhoods</option>`;
+	neighborhoodsSelect.setAttribute('aria-labelledby', 'neighborhood-label');
 
-/**
- * Initialize common material components.
- */
-let initializeMaterialComponents = () => {
-	const mdcSelects = Array.prototype.slice.call(document.querySelectorAll('.mdc-select'));
-	for (const mdcSelect of mdcSelects) {
-		const select = new MDCSelect(mdcSelect);
-		select.listen('change', updateRestaurants);
-	}
+	const neighborhoodsSelectLabel = document.createElement('label');
+	neighborhoodsSelectLabel.className = 'mdc-floating-label';
+	neighborhoodsSelectLabel.id = 'neighborhood-label';
+	neighborhoodsSelectLabel.innerHTML = 'Choose a neighborhood';
 
-	const mdcFloatingLabels = Array.prototype.slice.call(document.querySelectorAll('.mdc-floating-label'));
-	for (const mdcFloatingLabel of mdcFloatingLabels) {
-		new MDCFloatingLabel(mdcFloatingLabel);
-	}
-};
+	const neighborhoodsSelectRipple = document.createElement('div');
+	neighborhoodsSelectRipple.className = 'mdc-line-ripple';
+
+	const neighborhoodsSelectBox = document.createElement('div');
+	neighborhoodsSelectBox.className = 'mdc-select mdc-select--box mdc-ripple-upgraded';
+	neighborhoodsSelectBox.appendChild(neighborhoodsSelect);
+	neighborhoodsSelectBox.appendChild(neighborhoodsSelectLabel);
+	neighborhoodsSelectBox.appendChild(neighborhoodsSelectRipple);
+
+	const filterLayoutNeighborhoodsCell = document.createElement('div');
+	filterLayoutNeighborhoodsCell.className = 'mdc-layout-grid__cell mdc-layout-grid__cell--span-3';
+	filterLayoutNeighborhoodsCell.appendChild(neighborhoodsSelectBox);
+
+	const cuisinesSelect = document.createElement('select');
+	cuisinesSelect.className = 'mdc-select__native-control';
+	cuisinesSelect.id = 'cuisines-select';
+	cuisinesSelect.innerHTML = `<option value="All Cuisines" selected>All Cuisines</option>`;
+	cuisinesSelect.setAttribute('aria-labelledby', 'cuisines-label');
+
+	const cuisinesSelectLabel = document.createElement('label');
+	cuisinesSelectLabel.className = 'mdc-floating-label';
+	cuisinesSelectLabel.id = 'cuisine-label';
+	cuisinesSelectLabel.innerHTML = 'Choose a neighborhood';
+
+	const cuisinesSelectRipple = document.createElement('div');
+	cuisinesSelectRipple.className = 'mdc-line-ripple';
+
+	const cuisinesSelectBox = document.createElement('div');
+	cuisinesSelectBox.className = 'mdc-select mdc-select--box mdc-ripple-upgraded';
+	cuisinesSelectBox.appendChild(cuisinesSelect);
+	cuisinesSelectBox.appendChild(cuisinesSelectLabel);
+	cuisinesSelectBox.appendChild(cuisinesSelectRipple);
+
+	const filterLayoutCuisinesCell = document.createElement('div');
+	filterLayoutCuisinesCell.className = 'mdc-layout-grid__cell mdc-layout-grid__cell--span-3';
+	filterLayoutCuisinesCell.appendChild(cuisinesSelectBox);
+
+	const filterTittle = document.createElement('h2');
+	filterTittle.className = 'mdc-typography--headline5';
+	filterTittle.innerHTML = 'Filter Results';
+
+	const filterLayoutCell = document.createElement('div');
+	filterLayoutCell.className = 'mdc-layout-grid__cell mdc-layout-grid__cell--span-4';
+	filterLayoutCell.appendChild(filterTittle);
+
+	const filterLayout = document.createElement('div');
+	filterLayout.className = 'mdc-layout-grid__inner';
+	filterLayout.appendChild(filterLayoutCell);
+	filterLayout.appendChild(filterLayoutNeighborhoodsCell);
+	filterLayout.appendChild(filterLayoutCuisinesCell);
+
+	const filterContainer = document.createElement('div');
+	filterContainer.className = 'mdc-layout-grid filter-container';
+	filterContainer.id = 'filters';
+	filterContainer.setAttribute('tabindex', -1);
+	filterContainer.appendChild(filterLayout);
+
+	new MDCFloatingLabel(neighborhoodsSelectLabel);
+	new MDCFloatingLabel(cuisinesSelectLabel);
+	const mdcNeighborhoodsSelectBox = new MDCSelect(neighborhoodsSelectBox);
+	mdcNeighborhoodsSelectBox.listen('change', updateRestaurants);
+	const mdcCuisinesSelectBox = new MDCSelect(cuisinesSelectBox);
+	mdcCuisinesSelectBox.listen('change', updateRestaurants);
+
+	const restaurantsList = document.createElement('div');
+	restaurantsList.className = 'mdc-layout-grid__inner';
+	restaurantsList.id = 'restaurants-list';
+
+	const restaurantListContainer = document.createElement('div');
+	restaurantListContainer.className = 'restaurants-list-container mdc-layout-grid';
+	restaurantListContainer.appendChild(restaurantsList);
+
+	const restaurantContainer = document.createElement('div');
+	restaurantContainer.id = 'restaurant-container';
+	restaurantContainer.appendChild(restaurantListContainer);
+
+	updateRestaurants(restaurantsList, neighborhoodsSelect, cuisinesSelect, function () {
+		const mainContent = document.getElementById('maincontent');
+		mainContent.removeChild(document.getElementById('progressbar'));
+		mainContent.appendChild(filterContainer);
+		mainContent.appendChild(restaurantContainer);
+	});
+})();

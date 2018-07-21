@@ -15,18 +15,18 @@ const vinylSourceStream = require('vinyl-source-stream');
 
 let paths = {
 	assets: {
-		source: 'public/*',
+		source: 'public/**/!(material.index.min).css',
 	},
 	styles: {
 		source: 'src/sass/**/*.scss',
 		destination: 'public/css/'
 	},
 	scripts: {
-		source: 'src/js/**/!(*.material.io).js',
+		source: 'src/js/**/!(material.*).js',
 		destination: 'public/js/'
 	},
-	material: {
-		source: 'src/js/material.io.js',
+	materialIndex: {
+		source: 'src/js/material.index.js',
 		destination: 'public/js/'
 	},
 	images: {
@@ -39,14 +39,14 @@ function clean() {
 	return gulp.src(paths.assets.source, {read: false, force: true}).pipe(gulpClean());
 }
 
-function material() {
-	return browserify({entries: paths.material.source})
+function materialIndex() {
+	return browserify({entries: paths.materialIndex.source})
 		.transform(babelify, {presets: ['env'], global: true, ignore: /\/node_modules\/(?!@material\/)/})
 		.bundle()
-		.pipe(vinylSourceStream('material.io.min.js'))
+		.pipe(vinylSourceStream('material.index.min.js'))
 		.pipe(gulpStreamify(gulpBabel({presets: ['env']})))
 		.pipe(gulpStreamify(gulpUglify()))
-		.pipe(gulp.dest(paths.material.destination));
+		.pipe(gulp.dest(paths.materialIndex.destination));
 }
 
 function styles() {
@@ -78,7 +78,7 @@ function watch(done) {
 	done();
 }
 
-const build = gulp.series(clean, gulp.parallel(material, styles, scripts, images));
+const build = gulp.series(clean, gulp.parallel(materialIndex, styles, scripts, images));
 
 gulp.task('default', build);
 gulp.task('watch', watch);

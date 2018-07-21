@@ -9,45 +9,7 @@
     <link rel="icon" type="image/png" href="public/img/favicon.png">
     <link rel="manifest" href="/manifest.json">
     <title>Local Guides</title>
-    <style>#preloader {
-        background-color: #fff;
-        height: 100vh
-    }
-
-    .preloader_logo {
-        height: 100vh;
-        max-height: 100vh;
-        margin: 0;
-        padding: 5em
-    }
-
-    .preloader_logo svg {
-        width: 100%;
-        height: 100%
-    }
-
-    .hidden {
-        display: none
-    }
-
-    .skip-link {
-        position: absolute;
-        top: -60px;
-        left: 0;
-        background: #BF1722;
-        color: white;
-        padding: 8px;
-        z-index: 100;
-        border-bottom-right-radius: 8px
-    }
-
-    .skip-link:focus {
-        top: 0
-    }
-
-    .mdc-snackbar {
-        transform: translateY(100%);
-    }</style>
+    <style>#preloader{background-color:#fff;height:100vh}.preloader_logo{height:100vh;max-height:100vh;margin:0;padding:5em}.preloader_logo svg{width:100%;height:100%}.hidden{display:none}.skip-link{position:absolute;top:-60px;left:0;background:#BF1722;color:white;padding:8px;z-index:100;border-bottom-right-radius:8px}.skip-link:focus{top:0}.mdc-snackbar{transform:translateY(100%)}</style>
 </head>
 
 <body class="mdc-typography mdc-typography--overline">
@@ -76,13 +38,15 @@
             <a href="/" class="material-icons mdc-top-app-bar__navigation-icon" tabindex="-1">rate_review</a>
             <h1 class="mdc-typography--headline3">Local Guides</h1>
         </section>
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+            <a id="show-map" class="material-icons mdc-top-app-bar__action-item" href="javascript:void(0)" aria-label="Show Map" alt="Show Map">map</a>
+        </section>
     </div>
 </header>
 
 <main class="mdc-top-app-bar--fixed-adjust hidden" id="maincontent">
 
-    <div id="map-container" role="application">
-        <img id="static-map-img" src="" alt="Static map image of New York">
+    <div class="hidden" id="map-container" role="application">
         <div id="map" class="hidden"></div>
     </div>
 
@@ -228,7 +192,6 @@
 <script src="public/js/common.min.js" charset="utf-8"></script>
 <script src="public/js/dbhelper.min.js" charset="utf-8"></script>
 <script src="public/js/restaurant.min.js" charset="utf-8"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCn77VVsapalDcL4jdN_etwNX1o52r7yl4&libraries=places" async defer></script>
 
 </body>
 </html>

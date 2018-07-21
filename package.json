@@ -15,6 +15,7 @@
     "@material/grid-list": "^0.36.0",
     "@material/icon-toggle": "^0.36.0",
     "@material/layout-grid": "*",
+    "@material/linear-progress": "^0.35.0",
     "@material/list": "^0.36.0",
     "@material/ripple": "^0.36.0",
     "@material/rtl": "^0.36.0",

@@ -34,7 +34,6 @@ window.initMap = () => {
 			item.removeAttribute('rel');
 		});
 	});
-	showMap();
 	DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
 };
 

@@ -25,6 +25,16 @@
   line-height: 3rem;
 }
 
+.mdc-top-app-bar__action-item {
+  height: 100%;
+  font-size: 2.75rem;
+  line-height: 2.75rem;
+}
+
+.mdc-top-app-bar .mdc-typography--headline3 {
+  font-size: 1.75rem;
+}
+
 .mdc-card {
   border-radius: 0;
   margin-top: 20px;
@@ -248,8 +258,18 @@ header, footer, section, div {
 
   .mdc-top-app-bar__navigation-icon {
     width: 68px;
-    font-size: 4rem;
-    line-height: 4rem;
+    font-size: 3.75rem;
+    line-height: 3.75rem;
+  }
+
+  .mdc-top-app-bar__action-item {
+    width: 68px;
+    font-size: 3rem;
+    line-height: 3rem;
+  }
+
+  .mdc-top-app-bar .mdc-typography--headline3 {
+    font-size: 2rem;
   }
 
   #breadcrumb li, #restaurant-cuisine, #restaurant-address, #reviews-list li p, #restaurant-hours td {
@@ -282,8 +302,18 @@ header, footer, section, div {
 
   .mdc-top-app-bar__navigation-icon {
     width: 92px;
-    font-size: 5rem;
-    line-height: 5rem;
+    font-size: 4.5rem;
+    line-height: 4.5rem;
+  }
+
+  .mdc-top-app-bar__action-item {
+    width: 92px;
+    font-size: 3.25rem;
+    line-height: 3.25rem;
+  }
+
+  .mdc-top-app-bar .mdc-typography--headline3 {
+    font-size: 2.25rem;
   }
 
   #breadcrumb li, #restaurant-cuisine, #restaurant-address, #reviews-list li p, #restaurant-hours td {
@@ -302,8 +332,18 @@ header, footer, section, div {
 
   .mdc-top-app-bar__navigation-icon {
     width: 116px;
-    font-size: 6rem;
-    line-height: 6rem;
+    font-size: 5.25rem;
+    line-height: 5.25rem;
+  }
+
+  .mdc-top-app-bar__action-item {
+    width: 116px;
+    font-size: 3.5rem;
+    line-height: 3.5rem;
+  }
+
+  .mdc-top-app-bar .mdc-typography--headline3 {
+    font-size: 2.5rem;
   }
 
   #breadcrumb li, #restaurant-cuisine, #restaurant-address, #reviews-list li p, #restaurant-hours td {
@@ -322,8 +362,18 @@ header, footer, section, div {
 
   .mdc-top-app-bar__navigation-icon {
     width: 140px;
-    font-size: 7rem;
-    line-height: 7rem;
+    font-size: 6rem;
+    line-height: 6rem;
+  }
+
+  .mdc-top-app-bar__action-item {
+    width: 140px;
+    font-size: 3.75rem;
+    line-height: 3.75rem;
+  }
+
+  .mdc-top-app-bar .mdc-typography--headline3 {
+    font-size: 2.75rem;
   }
 
   .mdc-top-app-bar, #footer, #map-container, #map, #breadcrumb-container {

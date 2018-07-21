@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" href="public/img/favicon.png">
     <link rel="manifest" href="/manifest.json">
     <title>Local Guides</title>
-    <style>#preloader{background-color:#fff;height:100vh}.preloader_logo{height:100vh;max-height:100vh;margin:0;padding:5em}.preloader_logo svg{width:100%;height:100%}.hidden{display:none}.skip-link{position:absolute;top:-60px;left:0;background:#BF1722;color:white;padding:8px;z-index:100;border-bottom-right-radius:8px}.skip-link:focus{top:0}</style>
+    <style>#preloader{background-color:#fff;height:100vh}.preloader_logo{height:100vh;max-height:100vh;margin:0;padding:5em}.preloader_logo svg{width:100%;height:100%}.skip-link{position:absolute;top:-60px;left:0;background:#BF1722;color:white;padding:8px;z-index:100;border-bottom-right-radius:8px}.skip-link:focus{top:0}.hidden{display:none}</style>
 </head>
 
 <body class="mdc-typography mdc-typography--overline">
@@ -26,10 +26,10 @@
 </div>
 
 <noscript id="deferred-styles">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="public/css/material.io.min.css">
-    <link rel="stylesheet" href="public/css/index.min.css">
+    https://fonts.googleapis.com/css?family=Roboto:300,400,500
+    https://fonts.googleapis.com/icon?family=Material+Icons
+    public/css/material.index.min.css
+    public/css/index.min.css
 </noscript>
 
 <header class="mdc-top-app-bar mdc-top-app-bar--fixed hidden" id="header">
@@ -38,47 +38,19 @@
             <a href="/" class="material-icons mdc-top-app-bar__navigation-icon" tabindex="-1">rate_review</a>
             <h1 class="mdc-typography--headline3">Local Guides</h1>
         </section>
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+            <a id="show-map" class="material-icons mdc-top-app-bar__action-item" href="javascript:void(0)" aria-label="Show Map" alt="Show Map">map</a>
+        </section>
     </div>
 </header>
 
 <main class="mdc-top-app-bar--fixed-adjust hidden" id="maincontent">
 
-    <div id="map-container" role="application">
-        <img id="static-map-img" src="" alt="Static map image of New York">
-        <div id="map" class="hidden"></div>
-    </div>
-
-    <div id="filters" class="mdc-layout-grid filter-container" tabindex="-1">
-        <div class="mdc-layout-grid__inner">
-            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4">
-                <h2 class="mdc-typography--headline5">Filter Results</h2>
-            </div>
-            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-3">
-                <div class="mdc-select mdc-select--box mdc-ripple-upgraded">
-                    <select id="neighborhoods-select" class="mdc-select__native-control">
-                        <option value="All Neighborhoods" selected>All Neighborhoods</option>
-                    </select>
-                    <label class="mdc-floating-label">Choose a neighborhood</label>
-                    <div class="mdc-line-ripple"></div>
-                </div>
-            </div>
-            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-3">
-                <div class="mdc-select mdc-select--box mdc-ripple-upgraded">
-                    <select id="cuisines-select" class="mdc-select__native-control">
-                        <option value="All Cuisines" selected>All Cuisines</option>
-                    </select>
-                    <label class="mdc-floating-label">Choose a cuisine</label>
-                    <div class="mdc-line-ripple"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="restaurant-container">
-        <div class="restaurants-list-container mdc-layout-grid">
-            <div id="restaurants-list" class="mdc-layout-grid__inner">
-            </div>
-        </div>
+    <div id='progressbar' role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate">
+        <div class="mdc-linear-progress__buffering-dots"></div>
+        <div class="mdc-linear-progress__buffer"></div>
+        <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar"><span class="mdc-linear-progress__bar-inner"></span></div>
+        <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar"><span class="mdc-linear-progress__bar-inner"></span></div>
     </div>
 
 </main>
@@ -86,12 +58,13 @@
 <footer class="hidden" id="footer">Copyright (c) 2017 <a href="/"><strong>Local Guides</strong></a> All Rights Reserved.</footer>
 
 <script src="public/js/swhelper.min.js" charset="utf-8" defer></script>
-<script src="public/js/idb.min.js" charset="utf-8" defer></script>
-<script src="public/js/material.io.min.js" charset="utf-8" defer></script>
 <script src="public/js/common.min.js" charset="utf-8" defer></script>
-<script src="public/js/dbhelper.min.js" charset="utf-8" defer></script>
-<script src="public/js/index.min.js" charset="utf-8" defer></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCn77VVsapalDcL4jdN_etwNX1o52r7yl4&libraries=places" async defer></script>
 
+<noscript id="deferred-scripts">
+    public/js/idb.min.js
+    public/js/material.index.min.js
+    public/js/dbhelper.min.js
+    public/js/index.min.js
+</noscript>
 </body>
 </html>

@@ -20,6 +20,7 @@ $mdc-theme-on-secondary: #ffffff;
 @import "../../node_modules/@material/slider/mdc-slider";
 @import "../../node_modules/@material/chips/mdc-chips";
 @import "../../node_modules/@material/snackbar/mdc-snackbar";
+@import "../../node_modules/@material/linear-progress/mdc-linear-progress";
 
 @keyframes fade-in {
   from {
@@ -33,16 +34,17 @@ $mdc-theme-on-secondary: #ffffff;
   }
 }
 
-#reviews-container .mdc-card:last-child {
+#map-container, #restaurant-container, #reviews-container .mdc-card:last-child {
   animation: mdc-animation-enter(fade-in, 6000ms);
 }
 
-//.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__path {
-//  stroke: #155c8e;
-//}
-
 .mdc-top-app-bar .mdc-top-app-bar__navigation-icon {
   color: #ffffff;
+}
+
+.mdc-card__action--icon:not(:disabled) {
+  color: rgba(21, 92, 142, 1);
+  color: var(--mdc-theme-text-icon-on-background, rgba(21, 92, 142, 1))
 }
 
 .mdc-snackbar {
