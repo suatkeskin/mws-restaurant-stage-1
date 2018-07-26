@@ -14,27 +14,6 @@
   padding-top: 56px;
 }
 
-.mdc-top-app-bar__row section h1 {
-  line-height: 1rem;
-  text-transform: uppercase;
-}
-
-.mdc-top-app-bar__navigation-icon {
-  height: 100%;
-  font-size: 3rem;
-  line-height: 3rem;
-}
-
-.mdc-top-app-bar__action-item {
-  height: 100%;
-  font-size: 2.75rem;
-  line-height: 2.75rem;
-}
-
-.mdc-top-app-bar .mdc-typography--headline3 {
-  font-size: 1.75rem;
-}
-
 .mdc-card {
   border-radius: 0;
   margin-top: 20px;
@@ -50,14 +29,21 @@
 
 .mdc-list {
   padding: 16px 0;
+  color: rgba(0, 0, 0, .95);
+  color: var(--mdc-theme-text-hint-on-background, rgba(0, 0, 0, .95));
 }
 
-.mdc-top-app-bar .mdc-top-app-bar__navigation-icon {
-  color: #ffffff;
+.mdc-list-item__meta {
+  color: rgba(0, 0, 0, .75);
+  color: var(--mdc-theme-text-hint-on-background, rgba(0, 0, 0, .75));
 }
 
 .mdc-text-field--outlined, .mdc-text-field--textarea {
   width: 100%;
+}
+
+.mdc-chip .mdc-chip__icon.mdc-chip__icon--leading {
+  color: rgba(0,0,0,.72);
 }
 
 html {
@@ -179,23 +165,9 @@ header, footer, section, div {
   text-align: center;
 }
 
-//#add-review-container, #reviews-container .mdc-card .mdc-card__secondary {
 #reviews-container .mdc-card .mdc-card__secondary, #add-review-container .mdc-card .mdc-card__secondary, .mdc-snackbar {
   text-transform: none;
 }
-
-//#add-review-container {
-//  position: fixed;
-//  z-index: 2;
-//  bottom: 0;
-//  padding: 0 32px;
-//  left: 50%;
-//  transform: translate(-50%, 0);
-//}
-
-//#add-review-container .mdc-card {
-//  box-shadow: 0 2px 2px 0 rgba(255, 215, 133, 133), 0 3px 1px -2px rgba(255, 215, 133, 133), 0 1px 5px 0 rgba(255, 215, 133, 133);
-//}
 
 /* FAB button*/
 #add-review {
@@ -228,51 +200,14 @@ header, footer, section, div {
 }
 
 /* Common styles */
-.mdc-top-app-bar, #footer, #map-container, #map, #breadcrumb-container, #restaurant-container, #reviews-container, #add-review-container {
+#footer, #map-container, #map, #breadcrumb-container, #restaurant-container, #reviews-container, #add-review-container {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* Media queries */
-@media screen and (min-width: 550px) {
-  .filter-container .mdc-layout-grid__inner {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
-}
-
 @media screen and (min-width: 900px) {
-  .mdc-top-app-bar--fixed-adjust {
-    padding-top: 64px;
-  }
-}
-
-@media screen and (min-width: 900px) {
-  .mdc-top-app-bar, .mdc-top-app-bar__row {
-    height: 72px;
-  }
-
-  .mdc-top-app-bar--fixed-adjust {
-    padding-top: 72px;
-  }
-
-  .mdc-top-app-bar__navigation-icon {
-    width: 68px;
-    font-size: 3.75rem;
-    line-height: 3.75rem;
-  }
-
-  .mdc-top-app-bar__action-item {
-    width: 68px;
-    font-size: 3rem;
-    line-height: 3rem;
-  }
-
-  .mdc-top-app-bar .mdc-typography--headline3 {
-    font-size: 2rem;
-  }
-
-  #breadcrumb li, #restaurant-cuisine, #restaurant-address, #reviews-list li p, #restaurant-hours td {
+  #breadcrumb li, #restaurant-address, #reviews-list li p, #restaurant-hours td {
     font-size: 20px;
   }
 
@@ -281,110 +216,24 @@ header, footer, section, div {
   }
 }
 
-@media screen and (min-width: 1050px) {
-  .filter-container .mdc-layout-grid__inner {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-  }
-
-  .filter-container h2 {
-    text-align: right;
-  }
-}
-
 @media screen and (min-width: 1350px) {
-  .mdc-top-app-bar, .mdc-top-app-bar__row {
-    height: 96px;
-  }
-
-  .mdc-top-app-bar--fixed-adjust {
-    padding-top: 96px;
-  }
-
-  .mdc-top-app-bar__navigation-icon {
-    width: 92px;
-    font-size: 4.5rem;
-    line-height: 4.5rem;
-  }
-
-  .mdc-top-app-bar__action-item {
-    width: 92px;
-    font-size: 3.25rem;
-    line-height: 3.25rem;
-  }
-
-  .mdc-top-app-bar .mdc-typography--headline3 {
-    font-size: 2.25rem;
-  }
-
-  #breadcrumb li, #restaurant-cuisine, #restaurant-address, #reviews-list li p, #restaurant-hours td {
+  #breadcrumb li, #restaurant-address, #reviews-list li p, #restaurant-hours td {
     font-size: 22px;
   }
 }
 
 @media screen and (min-width: 1800px) {
-  .mdc-top-app-bar, .mdc-top-app-bar__row {
-    height: 120px;
-  }
-
-  .mdc-top-app-bar--fixed-adjust {
-    padding-top: 120px;
-  }
-
-  .mdc-top-app-bar__navigation-icon {
-    width: 116px;
-    font-size: 5.25rem;
-    line-height: 5.25rem;
-  }
-
-  .mdc-top-app-bar__action-item {
-    width: 116px;
-    font-size: 3.5rem;
-    line-height: 3.5rem;
-  }
-
-  .mdc-top-app-bar .mdc-typography--headline3 {
-    font-size: 2.5rem;
-  }
-
-  #breadcrumb li, #restaurant-cuisine, #restaurant-address, #reviews-list li p, #restaurant-hours td {
+  #breadcrumb li, #restaurant-address, #reviews-list li p, #restaurant-hours td {
     font-size: 24px;
   }
 }
 
 @media screen and (min-width: 2250px) {
-  .mdc-top-app-bar, .mdc-top-app-bar__row {
-    height: 144px;
-  }
-
-  .mdc-top-app-bar--fixed-adjust {
-    padding-top: 144px;
-  }
-
-  .mdc-top-app-bar__navigation-icon {
-    width: 140px;
-    font-size: 6rem;
-    line-height: 6rem;
-  }
-
-  .mdc-top-app-bar__action-item {
-    width: 140px;
-    font-size: 3.75rem;
-    line-height: 3.75rem;
-  }
-
-  .mdc-top-app-bar .mdc-typography--headline3 {
-    font-size: 2.75rem;
-  }
-
-  .mdc-top-app-bar, #footer, #map-container, #map, #breadcrumb-container {
-    width: 2000px;
-  }
-
-  #breadcrumb li, #restaurant-cuisine, #restaurant-address, #reviews-list li p, #restaurant-hours td {
+  #breadcrumb li, #restaurant-address, #reviews-list li p, #restaurant-hours td {
     font-size: 26px;
   }
 
-  .header, #footer, #breadcrumb-container, #restaurant-container, #reviews-container, #add-review-container, #map-container, #map {
+  #footer, #breadcrumb-container, #restaurant-container, #reviews-container, #add-review-container, #map-container, #map {
     width: 2000px;
   }
 }

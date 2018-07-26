@@ -15,7 +15,7 @@ const vinylSourceStream = require('vinyl-source-stream');
 
 let paths = {
 	assets: {
-		source: 'public/**/!(material.index.min).css',
+		source: 'public/**/!(material.*.min).css',
 	},
 	styles: {
 		source: 'src/sass/**/*.scss',
@@ -27,6 +27,10 @@ let paths = {
 	},
 	materialIndex: {
 		source: 'src/js/material.index.js',
+		destination: 'public/js/'
+	},
+	materialRestaurant: {
+		source: 'src/js/material.restaurant.js',
 		destination: 'public/js/'
 	},
 	images: {
@@ -44,6 +48,16 @@ function materialIndex() {
 		.transform(babelify, {presets: ['env'], global: true, ignore: /\/node_modules\/(?!@material\/)/})
 		.bundle()
 		.pipe(vinylSourceStream('material.index.min.js'))
+		.pipe(gulpStreamify(gulpBabel({presets: ['env']})))
+		.pipe(gulpStreamify(gulpUglify()))
+		.pipe(gulp.dest(paths.materialIndex.destination));
+}
+
+function materialRestaurant() {
+	return browserify({entries: paths.materialRestaurant.source})
+		.transform(babelify, {presets: ['env'], global: true, ignore: /\/node_modules\/(?!@material\/)/})
+		.bundle()
+		.pipe(vinylSourceStream('material.restaurant.min.js'))
 		.pipe(gulpStreamify(gulpBabel({presets: ['env']})))
 		.pipe(gulpStreamify(gulpUglify()))
 		.pipe(gulp.dest(paths.materialIndex.destination));
@@ -78,7 +92,7 @@ function watch(done) {
 	done();
 }
 
-const build = gulp.series(clean, gulp.parallel(materialIndex, styles, scripts, images));
+const build = gulp.series(clean, gulp.parallel(materialIndex, materialRestaurant, styles, scripts, images));
 
 gulp.task('default', build);
 gulp.task('watch', watch);

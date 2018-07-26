@@ -17,7 +17,6 @@ $mdc-theme-on-secondary: #ffffff;
 @import "../../node_modules/@material/fab/mdc-fab";
 @import "../../node_modules/@material/animation/functions";
 @import "../../node_modules/@material/textfield/mdc-text-field";
-@import "../../node_modules/@material/slider/mdc-slider";
 @import "../../node_modules/@material/chips/mdc-chips";
 @import "../../node_modules/@material/snackbar/mdc-snackbar";
 @import "../../node_modules/@material/linear-progress/mdc-linear-progress";
@@ -34,7 +33,7 @@ $mdc-theme-on-secondary: #ffffff;
   }
 }
 
-#map-container, #restaurant-container, #reviews-container .mdc-card:last-child {
+#map-container, #restaurant-container, #reviews-container .mdc-card, #add-review-container .mdc-card {
   animation: mdc-animation-enter(fade-in, 6000ms);
 }
 

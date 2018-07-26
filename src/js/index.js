@@ -359,5 +359,6 @@ let addMarkersToMap = () => {
 		mainContent.removeChild(document.getElementById('progressbar'));
 		mainContent.appendChild(filterContainer);
 		mainContent.appendChild(restaurantContainer);
+		document.getElementById('show-map').addEventListener('click', showHideMap);
 	});
 })();

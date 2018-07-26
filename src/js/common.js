@@ -3,7 +3,6 @@
  */
 SWHelper.registerServiceWorker();
 
-
 /**
  * Load deferred assets
  */
@@ -12,10 +11,7 @@ let loadDeferredAssets = function (nodeId) {
 	const urls = noscript.textContent.split('\n').map(item => item.trim()).filter((val) => val);
 	if (nodeId === 'deferred-styles') {
 		for (const url of urls) {
-			let link = document.createElement('link');
-			link.rel = 'stylesheet';
-			link.href = url;
-			document.head.appendChild(link);
+			loadStylesheet(url);
 		}
 	} else {
 		for (const url of urls) {
@@ -26,6 +22,16 @@ let loadDeferredAssets = function (nodeId) {
 		}
 	}
 	noscript.parentElement.removeChild(noscript);
+};
+
+/**
+ * Load deferred stylesheet
+ */
+let loadStylesheet = function (url) {
+	let link = document.createElement('link');
+	link.rel = 'stylesheet';
+	link.href = url;
+	document.head.appendChild(link);
 };
 
 /**
@@ -46,7 +52,6 @@ if (requestAnimationFrame) {
 window.addEventListener('load', () => {
 	fadeOutPreLoader();
 	loadDeferredAssets('deferred-scripts');
-	// loadDeferredScripts();
 	createMapContainer();
 });
 
@@ -84,8 +89,6 @@ let createMapContainer = () => {
 
 	const mainContent = document.getElementById('maincontent');
 	mainContent.appendChild(mapContainer);
-
-	document.getElementById('show-map').addEventListener('click', showHideMap);
 };
 
 /**
@@ -103,6 +106,7 @@ let showHideMap = (event) => {
 			mapScript.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCn77VVsapalDcL4jdN_etwNX1o52r7yl4&libraries=places&callback=initMap';
 			document.body.appendChild(mapScript);
 		}
+		mapContainer.scrollIntoView({behavior: 'smooth'});
 	} else {
 		mapContainer.classList.add('hidden');
 	}

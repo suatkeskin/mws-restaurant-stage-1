@@ -20,7 +20,6 @@
     "@material/ripple": "^0.36.0",
     "@material/rtl": "^0.36.0",
     "@material/select": "^0.36.0",
-    "@material/slider": "^0.36.0",
     "@material/snackbar": "^0.36.0",
     "@material/textfield": "*",
     "@material/theme": "^0.35.0",

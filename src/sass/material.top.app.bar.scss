@@ -1,0 +1,147 @@
+@charset "utf-8";
+
+.mdc-top-app-bar__row section h1 {
+  line-height: 1rem;
+  text-transform: uppercase;
+}
+
+.mdc-top-app-bar__navigation-icon {
+  height: 100%;
+  width: 62px;
+  font-size: 2.5rem;
+  line-height: 2rem;
+}
+
+.mdc-top-app-bar__action-item {
+  height: 100%;
+  font-size: 1.75rem;
+}
+
+.mdc-top-app-bar .mdc-typography--headline3 {
+  font-size: 1.25rem;
+}
+
+.mdc-top-app-bar .mdc-top-app-bar__navigation-icon {
+  color: #ffffff;
+}
+
+/* Common styles */
+.mdc-top-app-bar {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media screen and (min-width: 900px) {
+  .mdc-top-app-bar--fixed-adjust {
+    padding-top: 64px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .mdc-top-app-bar, .mdc-top-app-bar__row {
+    height: 72px;
+  }
+
+  .mdc-top-app-bar--fixed-adjust {
+    padding-top: 72px;
+  }
+
+  .mdc-top-app-bar__navigation-icon {
+    width: 68px;
+    font-size: 3rem;
+    line-height: 2.5rem;
+  }
+
+  .mdc-top-app-bar__action-item {
+    width: 60px;
+    font-size: 2.25rem;
+    line-height: 2rem;
+  }
+
+  .mdc-top-app-bar .mdc-typography--headline3 {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (min-width: 1350px) {
+  .mdc-top-app-bar, .mdc-top-app-bar__row {
+    height: 96px;
+  }
+
+  .mdc-top-app-bar--fixed-adjust {
+    padding-top: 96px;
+  }
+
+  .mdc-top-app-bar__navigation-icon {
+    width: 92px;
+    font-size: 4.5rem;
+    line-height: 4.5rem;
+  }
+
+  .mdc-top-app-bar__action-item {
+    width: 92px;
+    font-size: 3.25rem;
+    line-height: 3.25rem;
+  }
+
+  .mdc-top-app-bar .mdc-typography--headline3 {
+    font-size: 2.25rem;
+  }
+}
+
+@media screen and (min-width: 1800px) {
+  .mdc-top-app-bar, .mdc-top-app-bar__row {
+    height: 120px;
+  }
+
+  .mdc-top-app-bar--fixed-adjust {
+    padding-top: 120px;
+  }
+
+  .mdc-top-app-bar__navigation-icon {
+    width: 116px;
+    font-size: 5.25rem;
+    line-height: 5.25rem;
+  }
+
+  .mdc-top-app-bar__action-item {
+    width: 116px;
+    font-size: 3.5rem;
+    line-height: 3.5rem;
+  }
+
+  .mdc-top-app-bar .mdc-typography--headline3 {
+    font-size: 2.5rem;
+  }
+}
+
+@media screen and (min-width: 2250px) {
+  .mdc-top-app-bar, .mdc-top-app-bar__row {
+    height: 144px;
+  }
+
+  .mdc-top-app-bar--fixed-adjust {
+    padding-top: 144px;
+  }
+
+  .mdc-top-app-bar__navigation-icon {
+    width: 140px;
+    font-size: 6rem;
+    line-height: 6rem;
+  }
+
+  .mdc-top-app-bar__action-item {
+    width: 140px;
+    font-size: 3.75rem;
+    line-height: 3.75rem;
+  }
+
+  .mdc-top-app-bar .mdc-typography--headline3 {
+    font-size: 2.75rem;
+  }
+
+  .mdc-top-app-bar, #footer, #map-container, #map, #breadcrumb-container {
+    width: 2000px;
+  }
+}
