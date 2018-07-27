@@ -432,8 +432,8 @@ let initializeRestaurantContainer = () => {
 	cardMedia.className = 'mdc-card__media mdc-card__media--square';
 	cardMedia.appendChild(restaurantPicture);
 
-	const cardTitle = document.createElement('h4');
-	cardTitle.className = 'mdc-card__title mdc-typography--headline4';
+	const cardTitle = document.createElement('h2');
+	cardTitle.className = 'mdc-card__title mdc-typography--headline2';
 	cardTitle.id = 'restaurant-name';
 
 	const cardPrimary = document.createElement('div');
@@ -517,7 +517,7 @@ let initializeTopAppBarIcons = () => {
  * Initialize review container.
  */
 let initializeReviewContainer = () => {
-	const tittle = document.createElement('h2');
+	const tittle = document.createElement('p');
 	tittle.className = 'mdc-typography--headline2';
 	tittle.innerHTML = 'Reviews';
 
@@ -567,7 +567,7 @@ let initializeChip = (rating) => {
  * Initialize add review container.
  */
 let initializeAddReviewContainer = () => {
-	const cardPrimaryTittle = document.createElement('h4');
+	const cardPrimaryTittle = document.createElement('p');
 	cardPrimaryTittle.className = 'mdc-card__title mdc-typography--headline4';
 	cardPrimaryTittle.innerHTML = 'Rate and review';
 

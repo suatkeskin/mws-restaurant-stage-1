@@ -14,11 +14,6 @@
   padding-top: 56px;
 }
 
-.mdc-top-app-bar__row section h1 {
-  line-height: 1rem;
-  text-transform: uppercase;
-}
-
 .mdc-top-app-bar__navigation-icon {
   height: 100%;
   font-size: 3rem;
@@ -148,6 +143,11 @@ header, footer, section, div {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
+.filter-container h6 {
+  -webkit-margin-before: 0.5em;
+  -webkit-margin-after: 0.5em;
+}
+
 .filter-container .mdc-select {
   width: 100%;
 }
@@ -225,7 +225,7 @@ header, footer, section, div {
     grid-template-columns: repeat(12, minmax(0, 1fr));
   }
 
-  .filter-container h2 {
+  .filter-container h6 {
     text-align: right;
   }
 }

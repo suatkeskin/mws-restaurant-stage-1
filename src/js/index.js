@@ -132,11 +132,11 @@ let createRestaurantHTML = (restaurant) => {
 		mdCardMedia.append(picture);
 	}
 
-	const mdCardTitle = document.createElement('h4');
-	mdCardTitle.className = 'mdc-card__title mdc-typography--headline4';
+	const mdCardTitle = document.createElement('h2');
+	mdCardTitle.className = 'mdc-card__title mdc-typography--headline2';
 	mdCardTitle.innerHTML = restaurant.name;
 
-	const mdCardSubTitle = document.createElement('h4');
+	const mdCardSubTitle = document.createElement('h3');
 	mdCardSubTitle.className = 'mdc-card__subtitle mdc-typography--subtitle1';
 	mdCardSubTitle.innerHTML = restaurant.neighborhood;
 
@@ -315,8 +315,8 @@ let addMarkersToMap = () => {
 	filterLayoutCuisinesCell.className = 'mdc-layout-grid__cell mdc-layout-grid__cell--span-3';
 	filterLayoutCuisinesCell.appendChild(cuisinesSelectBox);
 
-	const filterTittle = document.createElement('h2');
-	filterTittle.className = 'mdc-typography--headline5';
+	const filterTittle = document.createElement('h6');
+	filterTittle.className = 'mdc-typography--headline6';
 	filterTittle.innerHTML = 'Filter Results';
 
 	const filterLayoutCell = document.createElement('div');
