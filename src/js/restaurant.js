@@ -99,7 +99,7 @@ let fillRestaurantHTML = (restaurant = self.restaurant) => {
 	name.innerHTML = `${restaurant.name} <span class="mdc-card__subtitle mdc-typography--subtitle1"> / ${restaurant.cuisine_type}</span>`;
 
 	const address = document.getElementById('restaurant-address');
-	address.innerHTML = restaurant.address;
+	address.innerHTML = `${restaurant.address} / ${restaurant.neighborhood}`;
 
 	const favoriteIcon = document.getElementById('favorite-icon');
 	favoriteIcon.setAttribute('aria-pressed', restaurant.is_favorite);
@@ -517,8 +517,8 @@ let initializeTopAppBarIcons = () => {
  * Initialize review container.
  */
 let initializeReviewContainer = () => {
-	const tittle = document.createElement('p');
-	tittle.className = 'mdc-typography--headline2';
+	const tittle = document.createElement('h3');
+	tittle.className = 'mdc-card__title mdc-typography--headline3';
 	tittle.innerHTML = 'Reviews';
 
 	const reviewsContainer = document.createElement('div');
@@ -567,8 +567,8 @@ let initializeChip = (rating) => {
  * Initialize add review container.
  */
 let initializeAddReviewContainer = () => {
-	const cardPrimaryTittle = document.createElement('p');
-	cardPrimaryTittle.className = 'mdc-card__title mdc-typography--headline4';
+	const cardPrimaryTittle = document.createElement('h5');
+	cardPrimaryTittle.className = 'mdc-card__title mdc-typography--headline5';
 	cardPrimaryTittle.innerHTML = 'Rate and review';
 
 	const cardPrimary = document.createElement('div');

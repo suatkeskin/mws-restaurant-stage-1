@@ -136,18 +136,18 @@ let createRestaurantHTML = (restaurant) => {
 	mdCardTitle.className = 'mdc-card__title mdc-typography--headline2';
 	mdCardTitle.innerHTML = restaurant.name;
 
-	const mdCardSubTitle = document.createElement('h3');
-	mdCardSubTitle.className = 'mdc-card__subtitle mdc-typography--subtitle1';
-	mdCardSubTitle.innerHTML = restaurant.neighborhood;
+	// const mdCardSubTitle = document.createElement('h3');
+	// mdCardSubTitle.className = 'mdc-card__subtitle mdc-typography--subtitle1';
+	// mdCardSubTitle.innerHTML = restaurant.neighborhood;
 
 	const mdCardPrimary = document.createElement('div');
 	mdCardPrimary.className = 'mdc-card__primary';
 	mdCardPrimary.append(mdCardTitle);
-	mdCardPrimary.append(mdCardSubTitle);
+	// mdCardPrimary.append(mdCardSubTitle);
 
 	const mdCardSecondary = document.createElement('div');
 	mdCardSecondary.className = 'mdc-card__secondary mdc-typography--body1';
-	mdCardSecondary.innerHTML = restaurant.address;
+	mdCardSecondary.innerHTML = `${restaurant.address} / ${restaurant.neighborhood}`;
 
 	const mdCardPrimaryAction = document.createElement('div');
 	mdCardPrimaryAction.className = 'mdc-card__primary-action mdc-ripple-upgraded';
