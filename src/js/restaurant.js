@@ -734,9 +734,6 @@ let initializeSnackBar = () => {
 	mainContent.appendChild(breadcrumbContainer);
 	mainContent.appendChild(restaurantContainer);
 	fetchRestaurantFromURL(() => {
-		loadStylesheet('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
-		loadStylesheet('https://fonts.googleapis.com/icon?family=Material+Icons');
-		loadStylesheet('public/css/material.top.app.bar.min.css');
 		initializeTopAppBarIcons();
 		const firstSplitter = document.createElement('hr');
 		const reviewsContainer = initializeReviewContainer();

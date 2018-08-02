@@ -5,13 +5,29 @@
   left: 0;
   right: 0;
   background-color: #303030;
-  z-index: 1;
+  z-index: 1
 }
 
 .mdc-top-app-bar--fixed-adjust {
   margin: 0;
   top: 0;
-  padding-top: 56px;
+  padding-top: 56px
+}
+
+.mdc-top-app-bar__navigation-icon {
+  height: 100%;
+  font-size: 3rem;
+  line-height: 3rem
+}
+
+.mdc-top-app-bar__action-item {
+  height: 100%;
+  font-size: 2.75rem;
+  line-height: 2.75rem
+}
+
+.mdc-top-app-bar .mdc-typography--headline1 {
+  font-size: 1.75rem
 }
 
 .mdc-card {
@@ -43,7 +59,7 @@
 }
 
 .mdc-chip .mdc-chip__icon.mdc-chip__icon--leading {
-  color: rgba(0,0,0,.72);
+  color: rgba(0, 0, 0, .72);
 }
 
 html {
@@ -200,13 +216,36 @@ header, footer, section, div {
 }
 
 /* Common styles */
-#footer, #map-container, #map, #breadcrumb-container, #restaurant-container, #reviews-container, #add-review-container {
+.mdc-top-app-bar, #footer, #map-container, #map, #breadcrumb-container, #restaurant-container, #reviews-container, #add-review-container {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
 
 @media screen and (min-width: 900px) {
+  .mdc-top-app-bar, .mdc-top-app-bar__row {
+    height: 72px
+  }
+
+  .mdc-top-app-bar--fixed-adjust {
+    padding-top: 72px
+  }
+
+  .mdc-top-app-bar__navigation-icon {
+    width: 68px;
+    font-size: 3.75rem;
+    line-height: 3.75rem
+  }
+
+  .mdc-top-app-bar__action-item {
+    width: 68px;
+    font-size: 3rem;
+    line-height: 3rem
+  }
+
+  .mdc-top-app-bar .mdc-typography--headline1 {
+    font-size: 2rem
+  }
   #breadcrumb li, #restaurant-address, #reviews-list li p, #restaurant-hours td {
     font-size: 20px;
   }
@@ -217,18 +256,94 @@ header, footer, section, div {
 }
 
 @media screen and (min-width: 1350px) {
+  .mdc-top-app-bar, .mdc-top-app-bar__row {
+    height: 96px
+  }
+
+  .mdc-top-app-bar--fixed-adjust {
+    padding-top: 96px
+  }
+
+  .mdc-top-app-bar__navigation-icon {
+    width: 92px;
+    font-size: 4.5rem;
+    line-height: 4.5rem
+  }
+
+  .mdc-top-app-bar__action-item {
+    width: 92px;
+    font-size: 3.25rem;
+    line-height: 3.25rem
+  }
+
+  .mdc-top-app-bar .mdc-typography--headline1 {
+    font-size: 2.25rem
+  }
+
   #breadcrumb li, #restaurant-address, #reviews-list li p, #restaurant-hours td {
     font-size: 22px;
   }
 }
 
 @media screen and (min-width: 1800px) {
+  .mdc-top-app-bar, .mdc-top-app-bar__row {
+    height: 120px
+  }
+
+  .mdc-top-app-bar--fixed-adjust {
+    padding-top: 120px
+  }
+
+  .mdc-top-app-bar__navigation-icon {
+    width: 116px;
+    font-size: 5.25rem;
+    line-height: 5.25rem
+  }
+
+  .mdc-top-app-bar__action-item {
+    width: 116px;
+    font-size: 3.5rem;
+    line-height: 3.5rem
+  }
+
+  .mdc-top-app-bar .mdc-typography--headline1 {
+    font-size: 2.5rem
+  }
+
   #breadcrumb li, #restaurant-address, #reviews-list li p, #restaurant-hours td {
     font-size: 24px;
   }
 }
 
 @media screen and (min-width: 2250px) {
+  .mdc-top-app-bar, .mdc-top-app-bar__row {
+    height: 144px
+  }
+
+  .mdc-top-app-bar--fixed-adjust {
+    padding-top: 144px
+  }
+
+  .mdc-top-app-bar__navigation-icon {
+    width: 140px;
+    font-size: 6rem;
+    line-height: 6rem
+  }
+
+  .mdc-top-app-bar__action-item {
+    width: 140px;
+    font-size: 3.75rem;
+    line-height: 3.75rem
+  }
+
+  .mdc-top-app-bar .mdc-typography--headline1 {
+    font-size: 2.75rem
+  }
+
+  .mdc-top-app-bar, #footer, #map-container, #map, #restaurant-container, #filters {
+    width: 2000px
+  }
+
   #breadcrumb li, #restaurant-address, #reviews-list li p, #restaurant-hours td {
     font-size: 26px;
   }

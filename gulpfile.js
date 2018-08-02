@@ -4,6 +4,7 @@ const gulpSass = require('gulp-sass');
 const gulpAutoPreFixer = require('gulp-autoprefixer');
 const gulpUglify = require('gulp-uglify');
 const gulpRename = require('gulp-rename');
+const gulpConcat = require('gulp-concat');
 const gulpClean = require('gulp-clean');
 const gulpImageMin = require('gulp-imagemin');
 const gulpBabel = require('gulp-babel');
@@ -19,10 +20,14 @@ let paths = {
 	},
 	styles: {
 		source: 'src/sass/**/*.scss',
+		concatSource: ['public/css/fonts.material.icons.min.css', 'public/css/material.index.min.css'],
 		destination: 'public/css/'
 	},
 	scripts: {
 		source: 'src/js/**/!(material.*).js',
+		concatSource: ['public/js/swhelper.min.js', 'public/js/common.min.js'],
+		concatIndexSource: ['public/js/idb.min.js', 'public/js/material.index.min.js', 'public/js/dbhelper.min.js', 'public/js/index.min.js'],
+		concatRestaurantSource: ['public/js/idb.min.js', 'public/js/material.restaurant.min.js', 'public/js/dbhelper.min.js', 'public/js/restaurant.min.js'],
 		destination: 'public/js/'
 	},
 	materialIndex: {
@@ -80,6 +85,24 @@ function scripts() {
 		.pipe(gulp.dest(paths.scripts.destination));
 }
 
+function concatCommonScripts() {
+	return gulp.src(paths.scripts.concatSource)
+		.pipe(gulpConcat('app.min.js'))
+		.pipe(gulp.dest(paths.scripts.destination));
+}
+
+function concatIndexScripts() {
+	return gulp.src(paths.scripts.concatIndexSource)
+		.pipe(gulpConcat('app.index.min.js'))
+		.pipe(gulp.dest(paths.scripts.destination));
+}
+
+function concatRestaurantScripts() {
+	return gulp.src(paths.scripts.concatRestaurantSource)
+		.pipe(gulpConcat('app.restaurant.min.js'))
+		.pipe(gulp.dest(paths.scripts.destination));
+}
+
 function images() {
 	return gulp.src(paths.images.source)
 		.pipe(gulpImageMin({progressive: true, use: [imageMinPngquant()]}))
@@ -92,7 +115,7 @@ function watch(done) {
 	done();
 }
 
-const build = gulp.series(clean, gulp.parallel(materialIndex, materialRestaurant, styles, scripts, images));
+const build = gulp.series(clean, gulp.parallel(materialIndex, materialRestaurant, styles, scripts, images, concatCommonScripts, concatIndexScripts, concatRestaurantScripts));
 
 gulp.task('default', build);
 gulp.task('watch', watch);

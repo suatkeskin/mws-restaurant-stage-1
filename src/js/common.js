@@ -41,9 +41,11 @@ let requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAni
 if (requestAnimationFrame) {
 	requestAnimationFrame(function () {
 		window.setTimeout(loadDeferredAssets('deferred-styles'), 0);
+		window.setTimeout(loadDeferredAssets('deferred-scripts'), 0);
 	});
 } else {
 	window.addEventListener('load', loadDeferredAssets('deferred-styles'));
+	window.addEventListener('load', loadDeferredAssets('deferred-scripts'));
 }
 
 /**
@@ -51,7 +53,6 @@ if (requestAnimationFrame) {
  */
 window.addEventListener('load', () => {
 	fadeOutPreLoader();
-	loadDeferredAssets('deferred-scripts');
 	createMapContainer();
 });
 

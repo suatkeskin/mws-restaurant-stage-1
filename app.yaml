@@ -11,5 +11,23 @@ handlers:
   static_files: \1
   upload: (.*)
 
+- url: /public/css/(.*)
+  static_files: \1
+  upload: (.*)
+  http_headers:
+    Cache-control: max-age=31536000
+
+- url: /public/js/(.*)
+  static_files: \1
+  upload: (.*)
+  http_headers:
+    Cache-control: private, max-age=31536000
+
+- url: /public/img/(.*)
+  static_files: \1
+  upload: (.*)
+  http_headers:
+    Cache-control: max-age=86400
+
 skip_files:
 - node_modules/
